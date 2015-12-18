@@ -1,0 +1,43 @@
+<% if !flash.now[:error].nil? %>
+  <%= flash.now[:error] %>
+<% end %>
+
+<div class="row">
+
+<% if !@user.errors.nil? %>
+<ul>
+  <% @user.errors.each do |column, message| %>
+  <% if column == :first_name %>
+    <% column = "First name" %>
+  <% elsif column == :last_name %>
+    <% column = "Last name" %>
+  <% end %>
+  <li>
+    <strong><%= column.capitalize %></strong> <%= message %>
+  </li>
+<% end %>
+</ul>
+<% end %>
+</div>
+
+
+<%= form_for @user do |f| %>
+<div class="form-group">
+  <%= f.label :first_name %>
+  <%= f.text_field :first_name, class: "form-control" %>
+
+  <%= f.label :last_name %>
+  <%= f.text_field :last_name, class: "form-control" %>
+
+  <%= f.label :email %>
+  <%= f.text_field :email, class: "form-control" %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password, class: "form-control" %>
+
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation, class: "form-control" %>
+</div>
+
+<%= f.submit "Submit", class: "btn btn-primary" %>
+<% end %>

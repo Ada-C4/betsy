@@ -1,0 +1,94 @@
+<% if @instock.length == 1 %>
+  <h2>You have <%= @instock.length %> item in your cart!</h2>
+<% else %>
+  <h2>You have <%= @instock.length %> items in your cart!</h2>
+<% end %>
+<% unless @instock.empty? %>
+  <br>
+  <table class="table table-hover cart">
+    <tr>
+      <th>Item</th>
+      <th>Quantity</th>
+      <th>Unit Price</th>
+      <th>Total Price</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <% @instock.each do |item| %>
+      <tr>
+        <td>
+          <%= link_to item.product.name, product_path(item.product) %>
+        </td>
+        <td>
+          <%= form_for [item.product, item], controller: :order_items, action: :update do |f| %>
+            <%= f.select :quantity, (0..item.product.inventory_total) %>
+        </td>
+        <td>
+          <%= cents_to_dollars(item.product.price) %>
+        </td>
+        <td>
+          <%= cents_to_dollars(item.product.price * item.quantity) %>
+        </td>
+        <td>
+          <%= f.submit "Update", class: "btn btn-default pull-right" %>
+        </td>
+        <td>
+          <%= link_to product_order_item_path(item.product, item), method: :delete do %>
+           <span class="glyphicon glyphicon-remove"></span>
+          <% end %>
+        </td>
+          <% end %>
+      </tr>
+    <% end %>
+    <% if @total %>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><h4>Total: <%= cents_to_dollars(@total) %></h4></td>
+    </tr>
+    <% end %>
+  </table>
+  <%= link_to "Checkout", checkout_path, class: "btn btn-default btn-block" %>
+<% end %>
+
+<% if flash[:alert] %>
+  <div>
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<table class="table table-hover cart">
+  <% @outofstock.each do |item| %>
+  <h6>YOUR CART HAS CHANGED:</h6>
+    <% if item.product.inventory_total == 0 %>
+        <h6> <%= item.product.name %> is now unavaliable </h6>
+    <% else %>
+      <h6>You selected <%= item.quantity %> of <%= item.product.name %> but only <%= item.product.inventory_total %> are currently available. Please change your quantity if you would still like to purchase this item.</h6>
+      <tr>
+        <td>
+          <%= item.product.name %>
+        </td>
+
+          <%= form_for [item.product, item], controller: :order_items, action: :update do |f| %>
+            <td>
+            <%= f.select :quantity, (0..item.product.inventory_total) %>
+            </td>
+            <td>
+              <%= f.submit "Update", class: "btn btn-default pull-right" %>
+            </td>
+            <td>
+              <%= link_to product_order_item_path(item.product, item), method: :delete do %>
+               <span class="glyphicon glyphicon-remove"></span>
+              <% end %>
+            </td>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+
+<%= link_to "Continue Shopping", root_path, class: "btn btn-default btn-block" %>

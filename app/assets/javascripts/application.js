@@ -11,6 +11,38 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.cookie
+//= require bootstrap-sprockets
 //= require jquery_ujs
-//= require turbolinks
 //= require_tree .
+
+function initialize() {
+  $("#accordion1").on("hide.bs.collapse", function(){
+    $("#accordion1 .glyphicon").replaceWith('<span class="glyphicon glyphicon-triangle-bottom pull-right"></span>');
+  });
+  $("#accordion1").on("show.bs.collapse", function(){
+    $("#accordion1 .glyphicon").replaceWith('<span class="glyphicon glyphicon-triangle-top pull-right"></span>');
+  });
+
+  $("#accordion2").on("hide.bs.collapse", function(){
+    $("#accordion2 .glyphicon").replaceWith('<span class="glyphicon glyphicon-triangle-bottom pull-right"></span>');
+  });
+  $("#accordion2").on("show.bs.collapse", function(){
+    $("#accordion2 .glyphicon").replaceWith('<span class="glyphicon glyphicon-triangle-top pull-right"></span>');
+  });
+
+  var url = document.location.hash;
+  if (url.match('#')) {
+    console.log('matched');
+    $(".nav-tabs a[href='" + url + "']").tab('show');
+  }
+
+
+  $("input#shipping").on('click', shipFunction);
+}
+
+function shipFunction() {
+    $("#shipform").toggle();
+}
+
+$(document).ready(initialize);

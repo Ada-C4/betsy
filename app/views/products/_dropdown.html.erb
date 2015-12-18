@@ -1,0 +1,33 @@
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-default" aria-haspopup="true" aria-expanded="false">
+  <%= link_to(root_path) do %>
+     All Products
+  <% end %>
+  </button>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Categories
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <% @categories.each do |cat| %>
+        <li><%= link_to(root_path(:type => 'cat', :order => cat.id)) do %>
+        <%= cat.name %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Merchants
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <% @merchants.each do |merch| %>
+        <li><%= link_to(root_path(:type => 'merch',:order => merch.id)) do %>
+        <%= merch.first_name %> <%= merch.last_name %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+</div>

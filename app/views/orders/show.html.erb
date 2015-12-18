@@ -1,0 +1,73 @@
+<h1>Order Details</h1>
+
+<h3>Order Date: <%= readable_date(@order.created_at) %></h3>
+<h3>Order Status: <%= @order.status.capitalize %></h3>
+<h3>Shipped:
+  <% if @user.find_order_item(@order) == true %>
+    Yes
+  <% else %>
+    No
+  <% end %>
+</h3>
+<br>
+<h2>Customer Details</h2>
+<table class="table">
+  <tr>
+    <td>Name</td>
+    <td><%= @order.name_on_card %></td>
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td><%= @order.email %></td>
+  </tr>
+  <tr>
+    <td>Mailing Address</td>
+    <td><%= @order.mailing_address %></td>
+  </tr>
+  <tr>
+    <td>Last 4 Digits of Credit Card</td>
+    <td><%= @order.last_four %></td>
+  </tr>
+  <tr>
+    <td>Credit Card Expiration</td>
+    <td><%= cc_expiration(@order.card_exp) %></td>
+  </tr>
+</table>
+
+<h2>Product Details</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Item Total</th>
+    </tr>
+  </thead>
+  <% @order.order_items.each do |order_item| %>
+    <% if order_item.product.user.id == @user.id %>
+      <tr>
+        <td><%= link_to order_item.product.name, user_product_path(order_item.product.user_id, order_item.product.id) %></td>
+        <td><%= cents_to_dollars(order_item.product.price) %></td>
+        <td><%= order_item.quantity %></td>
+        <td><%= cents_to_dollars(order_item.quantity * order_item.product.price) %></td>
+      </tr>
+    <% end %>
+  <% end %>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td><strong>Total</strong></td>
+    <td><%= cents_to_dollars(@order.total(@user.id)) %></td>
+  </tr>
+</table>
+
+<% if @order.status == 'paid' && @user.find_order_item(@order) == false %>
+  <%= link_to "Mark as Shipped", user_order_ship_path(@user.id, @order.id), method: :post, class:"btn btn-default" %>
+<% end %>
