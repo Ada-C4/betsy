@@ -1,0 +1,35 @@
+<h1>Thank you for shopping on Wetsy!</h1>
+<p>
+  <table>
+    <th>
+      Items purchased
+    </th>
+    <th>
+      Quantity
+    </th>
+    <th>
+      Subtotal
+    </th>
+    <% @order.order_items.each do |oi| %>
+    <tr>
+      <td><%= link_to oi.product.name, user_product_path(oi.product.user, oi.product) %></td>
+      <td><%= oi.quantity %></td>
+      <td><%= dollar_price(oi.quantity * oi.product.price) %></td>
+    <% end %>
+    </tr>
+  </table>
+</p>
+<p>
+  <strong>Order Total:</strong>
+  <%= dollar_price(@total) %>
+</p>
+<p>
+  <strong>Purchased:</strong>
+  <%= readable_date(@order.created_at.in_time_zone("Pacific Time (US & Canada)")) %> at <%= readable_time(@order.created_at.in_time_zone("Pacific Time (US & Canada)")) %>
+</p>
+<p>
+  <strong>Status:</strong>
+  <%= @order.status %>
+
+  <%= button_to "Cancel your order", cancel_order_path(@order.id), data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
+</p>

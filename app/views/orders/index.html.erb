@@ -1,0 +1,89 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @user.name %>'s Order Fulfillment Page</h1>
+<div class="row">
+  <div class="col-md-6">
+    <!-- begin order section -->
+    <h3>Orders</h3>
+    <p><strong>Total Paid Orders (Not Shipped):</strong> <%= @paid_orders.count %></p>
+    <p><strong>Total Completed Orders (Shipped):</strong> <%= @completed_orders.count %></p>
+    <p><strong>Total Cancelled Orders:</strong> <%= @cancelled_orders.count %></p>
+    <p>
+      <%= form_tag '', :method => :get do %>
+      <%= select_tag "Status", options_for_select(["Paid", "Shipped", "Cancelled"]), prompt: "Select" %>
+      <%= submit_tag 'Filter by Order Status' %>
+      <% end %>
+    </p>
+    <br>
+    <!-- end order section  -->
+  </div>
+  <div class="col-md-6">
+    <!-- begin revenue section -->
+    <h3>Revenue</h3>
+    <p><strong>Total Revenue from Paid Orders (Not Shipped):</strong> <%= dollar_price(@paid_orders_revenue) %></p>
+    <p><strong>Total Revenue from Completed Orders (Shipped):</strong> <%= dollar_price(@completed_orders_revenue) %></p>
+    <p><strong>Total Revenue:</strong> <%= dollar_price(@total_revenue) %></p>
+    <%= link_to "Products to be shipped", not_shipped_yet_path(@user.id) %>
+    <!-- end revenue section -->
+  </div>
+</div>
+<hr>
+<% @orders.to_ary.in_groups_of(2, false) do |group| %>
+<div class="row">
+<!-- begin group -->
+<% group.each do |order| %>
+<!-- begin order -->
+<div class="col-md-6">
+  <div class="order-table">
+<!-- begin order display section -->
+  <h4>Order <%= link_to "##{order.id}", user_order_path(@user.id, order.id) %></h4>
+  <p>
+    <strong>Status: </strong><%= order.status %>
+  </p>
+  <p>
+    <strong>Purchased: </strong><%= readable_date(order.created_at.in_time_zone("Pacific Time (US & Canada)")) %> at <%= readable_time(order.created_at.in_time_zone("Pacific Time (US & Canada)")) %>
+  </p>
+  <p>
+    <strong>Order Items:</strong>
+  </p>
+    <table class="table table-hover .table-responsive">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+          <th>Status</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+      <tbody>
+      <% order.order_items.includes(product: [:user]).each do |order_item| %>
+        <% if order_item.product.user == @user %>
+          <tr>
+            <td><%= link_to order_item.product.name, user_product_path(order_item.product.user, order_item.product) %></td>
+            <td><%= order_item.quantity %></td>
+            <td><%= dollar_price(order_item.quantity * order_item.product.price) %></td>
+            <td><%= order_item.shipped ? "Shipped" : "Not Shipped" %></td>
+            <td>
+              <% if order.status!= "cancelled" %>
+                <% if !order_item.shipped %>
+                  <%= button_to "Mark as Shipped", shipped_path(@user.id, order.id, order_item.id), class:"btn   btn-default" %>
+                <% else %>
+                  <%= button_to "Cancel Shipping", shipped_path(@user.id, order.id, order_item.id), class:"btn   btn-default" %>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<!-- end order display section  -->
+</div>
+<!-- end order -->
+<% end %>
+<!-- end group -->
+</div>
+<% end %>
+<!-- end outside group loop -->

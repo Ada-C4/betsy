@@ -1,0 +1,43 @@
+<% if @products.respond_to?(:total_pages) %>
+  <div class="row text-center"><%= will_paginate @products %></div>
+<% end %>
+<% @products.to_ary.in_groups_of(4, false) do |group| %>
+  <div class="row">
+    <% group.each do |product| %>
+      <div class="col-sm-3 col-lg-3 col-md-3">
+        <div class="thumbnail">
+          <div class="img-container">
+          <%= image_tag product.photo_url, alt: "product photo" %>
+          </div>
+            <div class="caption">
+                <h5 class="pull-right"><%= dollar_price(product.price) %></h4>
+                <h5><%= link_to product.name, user_product_path(product.user_id, product.id) %>
+                </h4>
+                <p class="description">
+                  <% if !product.description.nil? %>
+                    <%= product.description %>
+                  <% else %>
+                    <br>
+                  <% end %>
+                </p>
+                <p class="num_available"><%= product.stock %> Available</p>
+            </div>
+            <div class="ratings">
+              <p class="pull-right"><%= pluralize(product.reviews.count, "Review") %></p>
+              <p>
+                <% product.review_rounded.times do %>
+                  <span class="glyphicon glyphicon-star"></span>
+                <% end %>
+                <% (5 - product.review_rounded).times do %>
+                  <span class="glyphicon glyphicon-star-empty"></span>
+                <% end %>
+              </p>
+            </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<% if @products.respond_to?(:total_pages) %>
+  <div class="row text-center"><%= will_paginate @products %></div>
+<% end %>

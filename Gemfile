@@ -29,6 +29,10 @@ gem 'bootstrap-sass', '~> 3.3.5'
 
 gem 'simplecov', :require => false, :group => :test
 
+gem 'will_paginate'
+
+gem "font-awesome-rails"
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -38,6 +42,11 @@ gem 'simplecov', :require => false, :group => :test
 
 group :production do
   gem "pg"
+end
+
+group :test do
+  gem 'shoulda-matchers', '~> 3.0'
+  gem "factory_girl_rails", "~> 4.0"
 end
 
 group :development, :test do
@@ -59,5 +68,7 @@ group :development do
   gem "binding_of_caller"
 
   # Use sqlite3 as the database for Active Record
-    gem 'sqlite3'
+  gem 'sqlite3'
+
+  gem 'bullet'
 end

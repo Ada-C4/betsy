@@ -1,0 +1,42 @@
+<%= form_for [@user, @product], :html => {:class => "form-group" } do |f| %>
+  <% if @product.errors.any? %>
+    <div id="error_explanation">
+      <ul>
+      <% @product.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'form-control', :required => true %>
+
+    <%= f.label :price %>
+    <%= f.number_field :price, class: 'form-control', :required => true, :value => 0, :min => 0, :step => 0.01 %>
+
+    <%= f.label :photo_url %>
+    <%= f.text_field :photo_url, class: 'form-control' %>
+
+    <%= f.label :stock %>
+    <%= f.number_field :stock, class: 'form-control', :required => true, :min => 0 %>
+
+    <%= f.label :description %>
+    <%= f.text_field :description, class: 'form-control' %>
+
+    <div class="checkbox checkbox-inline">
+      <%= f.check_box :active %>
+      <%= f.label :active %>
+    </div>
+
+    <br>
+    <%= f.label "Categories:" %>
+    <% @categories.each do |c| %>
+      <%= check_box_tag "categories[]", c.id, @product.categories.include?(c) %>
+      <%= label_tag c.name %>
+    <% end %>
+    <%= f.submit value: "Add Product", class: "btn btn-primary" %>
+  </div>
+<% end %>

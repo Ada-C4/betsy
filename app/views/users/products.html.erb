@@ -1,0 +1,10 @@
+<h1><%= @user.name %>'s Products
+<% if logged_in? && current_user == @user %>
+  <small><%= link_to "Add a Product", new_user_product_path(@user) %></small>
+<% end %>
+</h1>
+<% if logged_in? && current_user == @user %>
+  <%= render partial: 'shared/products' %>
+<% else %>
+  <%= render partial: 'shared/display_products' %>
+<% end %>
