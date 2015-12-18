@@ -1,0 +1,27 @@
+<div class="col-md-12 text-center error-message">
+<% if !flash.now[:error].nil? || !flash[:error].nil? %>
+  <%= flash.now[:error] %>
+<% else %>
+  <%= flash[:error] %>
+<% end %>
+</div>
+
+<h3 class="signup text-center">Sell your swag. Become a merchant.</h3>
+  <%= form_for @merchant, url: { action: "create" }, html: { class: "form-group" } do |f| %>
+    <%= f.label :user_name, "Shop Name" %>
+    <%= f.text_field :user_name, class: "form-control" %>
+
+    <%= f.label :email %>
+    <%= f.email_field :email, class: "form-control" %>
+
+    <%= f.label :password %>
+    <%= f.password_field :password, class: "form-control" %>
+
+    <%= f.label :password_confirmation, "Confirm Password" %>
+    <%= f.password_field :password_confirmation, class: "form-control" %>
+
+    <br>
+    <div class="col-md-12 text-center">
+      <%= f.submit "Submit", class: "btn black-button" %>
+    </div>
+  <% end %>

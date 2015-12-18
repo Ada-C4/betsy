@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-md-12 text-center error-message">
+    <% @category.errors.each do |column, message| %>
+    <%= column.capitalize %> <%= message %>
+    <% end %>
+  </div>
+  <div class="col-lg-12">
+    <fieldset>
+      <%= form_for @category, :html => {:class => "form" } do |f| %>
+        <h2 class="text-center">New Category</h2>
+        <div class="form-group">
+          <%= f.label :name, "Category Name" %>
+          <%= f.text_field :name, class: "form-control" %>
+        </div>
+        <div class="col-md-12 text-center button-container">
+          <%= f.submit "Save and Add Another", class: "btn btn-default" %>
+          <%= f.submit "Save", class: "btn btn-default" %>
+        </div>
+      <% end %>
+    </fieldset>
+  </div>
+</div>

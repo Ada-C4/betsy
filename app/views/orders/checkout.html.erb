@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h1>CHECKOUT</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 text-center subtotal">
+    <h5>SUBTOTAL: $<%= number_with_precision(@subtotal, :precision => 2, :delimiter => ',') %></h5>
+  </div>
+</div>
+
+<div class="row">
+  <div class="checkout-errors">
+    <ul>
+      <% @order.errors.full_messages.each do |message| %>
+        <li>
+          <strong><%= message %> </strong>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<%= form_for @order, :url => "/confirmation", :action => :confirmation, :html => { :method => :post } do |f| %>
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h2>Shipping Information</h2>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :customer_name, class: "form-control" %>
+
+    <%= f.label :email %>
+    <%= f.email_field :customer_email, class: "form-control" %>
+
+    <%= f.label :street_address %>
+    <%= f.text_field :street_address, class: "form-control" %>
+
+    <%= f.label :city %>
+    <%= f.text_field :city, class: "form-control" %>
+
+    <%= f.label :state %>
+    <%= f.select :state, options_for_select(us_states), class: "form-control" %>
+    <br>
+    <%= f.label :zip_code %>
+    <%= f.number_field :zip_code, class: "form-control" %>
+
+    <h2>Billing Information</h2>
+
+    <%= f.label :name_on_card %>
+    <%= f.text_field :name_on_card, class: "form-control" %>
+
+    <%= f.label :gringotts_card_number %>
+    <%= f.number_field :card_number, class: "form-control" %>
+
+    <%= f.label :expiration_date %>
+    <%= f.select :customer_card_exp_month, options_for_select(["Month", "01", "02", "03", "04", "05", "06", "07",
+       "08", "09", "10", "11", "12"]),
+      class: "form-control" %>
+    <span> / </span>
+    <!-- <%= f.label :expiration_date_year %> -->
+    <%= f.select :customer_card_exp_year, options_for_select(["Year", "2015", "2016", "2017", "2018", "2019", "2020", "2021",
+      "2022", "2023", "2024", "2025"]),
+     class: "form-control" %>
+     <br>
+    <%= f.label :security_code %>
+    <%= f.number_field :security_code, class: "form-control" %>
+
+    <!-- <label for="ccv">Security Code</label>
+    <input name="ccv" type="number_field" class="form-control" /> -->
+
+    <%= f.label :billing_zip_code %>
+    <%= f.number_field :billing_zip_code, class: "form-control" %>
+    <div class="col-md-12 text-center">
+      <%= f.submit "Submit Order", :action => "confirmation", class: "btn black-button margin-top margin-bottom" %>
+    </div>
+  </div>
+<% end %>

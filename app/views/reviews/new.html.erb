@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h1>Write Your Review for <%= @review.product.name %></h1>
+  </div>
+  <div class="checkout-errors">
+    <ul>
+      <% @review.errors.full_messages.each do |message| %>
+        <li>
+          <strong><%= message %> </strong>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <%= form_for @review, url: { action: "create" }, html: { class: "form-group" } do |f| %>
+
+    <%= f.label :rating, "Rate This Product (1-5):" %>
+    <%= f.number_field :rating, in: 1..5, class: "form-control" %>
+
+    <%= f.label :description, "Write a Review:" %>
+    <%= f.text_area :description, class: "form-control" %>
+
+    <div class="col-md-12 text-center">
+      <%= f.submit "Submit Review", class: "btn black-button margin-top" %>
+    </div>
+    <% end %>
+  </div>
+</div>

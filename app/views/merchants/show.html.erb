@@ -1,0 +1,113 @@
+<div class="col-md-12 text-center error-message">
+<% if !flash[:error].nil? %>
+  <%= flash[:error] %>
+<% end %>
+</div>
+
+<h1 class="text-center"><%= @merchant.user_name%></h1>
+<div class="col-md-12 text-center gray-button-container">
+  <%= link_to "Add a Product", new_product_path, :class => 'btn black-button' %>
+  <%= link_to "View Products", merchant_products_path(@merchant), :class => 'btn black-button' %>
+  <%= link_to "Add Categories", new_category_path, class: "btn black-button" %>
+</div>
+
+<p>
+  <% @products.each do |product| %>
+    <% product.order_items.each do |item|%>
+      <% if item.order.status == "pending"%>
+        <% cart_total = product.price * item.quantity %>
+        <% @pending_revenue += cart_total%>
+      <% elsif item.order.status == "paid"%>
+        <% cart_total = product.price * item.quantity %>
+        <%@paid_revenue += cart_total%>
+      <% elsif item.order.status == "complete"%>
+        <% cart_total = product.price * item.quantity %>
+        <%@complete_revenue += cart_total%>
+      <% elsif item.order.status == "cancelled"%>
+        <% cart_total = product.price * item.quantity %>
+        <%@cancelled_revenue += cart_total%>
+      <% end %>
+    <% end %>
+  <% end %> </p>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <table class="table table-bordered order-table" >
+      <thead>
+        <tr>
+          <th> Order Number </th>
+          <th> Items </th>
+          <th><div class="dropdown">
+            <button class="merchant-dropdown" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              Order Status
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li><%= link_to "All", merchant_path(sort:'all')%></li>
+              <li><%= link_to "Pending", merchant_path(sort:'pending')%></li>
+              <li><%= link_to "Paid", merchant_path(sort:'paid')%></li>
+              <li><%= link_to "Complete", merchant_path(sort:'complete')%></li>
+              <li><%= link_to "Cancelled", merchant_path(sort:'cancelled')%></li>
+            </ul>
+          </div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <% @orders.each do |order| %>
+            <td><%= link_to order.id, order %><br><small> Ordered on: <%= order.order_time.strftime("%m/%d/%Y %I:%M%p") if !order.order_time.nil? %></small></td>
+              <td>
+                <% order.products.each do |product| %>
+                  <% if product.merchant_id == @merchant.id%>
+                    <%= link_to product.name, product %>
+                    $<%= number_with_precision(product.price, :precision => 2, :delimiter => ',') %>
+                    <% product.order_items.each do |item|%>
+                      <% if item.order.id == order.id%><br>
+                        <%= "   Quantity: " + item.quantity.to_s %>
+                        <%= "   Total: $" + (item.quantity * product.price).to_s + "0" %>
+                          <%if item.shipped?%>
+                          <%= link_to("", :class => "gray-button btn btn-default") do %>
+                          <!-- This button goes nowhere, it just is a visual contrast to the "mark as shipped button" -->
+                            Item has shipped
+                            <% end %>
+                          <% elsif item.order.status == "paid" %>
+                            <%= link_to(shipped_order_item_path(item), :method => :put, :class => "btn btn-default", :id => 'all-button') do %>
+                            Mark As Shipped
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </td>
+            <td><%= order.status %></td></tr>
+          <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+  <div class="row margin-top margin-bottom">
+    <div class="col-md-8 col-md-offset-2 total-container">
+      <h1 class="total-header"> SUMMARY </h2>
+      <div class="row">
+        <div class="col-md-8 order-segments">
+          <h1> Revenue</h1>
+          <p class="col-md-8">Total Revenue for Pending Orders: </p><p class="col-md-4">$<%= number_with_precision(@pending_revenue, :precision => 2, :delimiter => ',') %></p>
+          <p class="col-md-8">Total Revenue for Paid Orders: </p><p class="col-md-4">$<%= number_with_precision(@paid_revenue, :precision => 2, :delimiter => ',') %></p>
+          <p class="col-md-8">Total Revenue for Cancelled Orders: </p><p class="col-md-4">$<%= number_with_precision(@cancelled_revenue, :precision => 2, :delimiter => ',') %></p>
+          <p class="col-md-8">Total Revenue for Completed Orders: </p><p class="col-md-4">$<%= number_with_precision(@complete_revenue, :precision => 2, :delimiter => ',') %></p>
+          <p class="col-md-8"><strong>Total Net Revenue: </p><p class="col-md-4">$<%= number_with_precision((@paid_revenue + @complete_revenue), :precision => 2, :delimiter => ',') %></strong></p>
+        </div>
+        <div class="col-md-4">
+          <h1> Orders </h1>
+          <p class="col-md-10">Total Pending Orders: </p><p class="col-md-2"><%= @all_orders.where(status: "pending").count %></p>
+          <p class="col-md-10">Total Cancelled Orders: </p><p class="col-md-2"><%= @all_orders.where(status: "cancelled").count %></p>
+          <p class="col-md-10">Total Paid Orders: </p><p class="col-md-2"><%= @all_orders.where(status: "paid").count %></p>
+          <p class="col-md-10">Total Completed Orders: </p><p class="col-md-2"><%= @all_orders.where(status: "complete").count %></p>
+          <p class="col-md-10"><strong>Total Orders: </p><p class="col-md-2"><%= @all_orders.count %></strong></p>
+        </div>
+      </div>
+    </div>
+  </div>

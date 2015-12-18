@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h1>YOUR CART</h1>
+  </div>
+</div>
+
+<% if !flash[:error].nil? %>
+  <div class="col-md-12 text-center error-message">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+
+
+<% if @order_items.size == 0 %>
+  <p class="text-center">
+    There are no items in your shopping cart.  Please continue shopping to accio some items to your cart.
+  </p>
+  <div class="dobby">
+    <%= image_tag "dobby.png", class:"dobby" %>
+  </div>
+  <div class="col-md-12 text-center">
+    <div class=" btn browse-link-container">
+      <%= link_to "BROWSE PRODUCTS", products_path, class:"checkout-link" %>
+    </div>
+  </div>
+
+<% else %>
+<div class="row">
+  <div class="row">
+    <div class="col-md-12 text-center subtotal">
+      <h5>SUBTOTAL: $<%= number_with_precision(@subtotal, :precision => 2, :delimiter => ',') %></h5>
+    </div>
+  </div>
+  <div class="col-md-12 text-center">
+    <div class=" btn checkout-link-container">
+      <%= link_to "CHECKOUT", checkout_path, class:"checkout-link" %>
+    </div>
+  </div>
+</div>
+  <% @order_items.each do |order_item| %>
+    <div class="row">
+      <div class="col-md-2 col-md-offset-3">
+        <div class="cart-image-container"><%= link_to image_tag(order_item.product.photo_url,
+                class: "cart-image"), product_path(order_item.product.id) %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-6">
+            <h5 class="product-name"><%= order_item.product.name %> from <%= order_item.product.merchant.user_name %></h5>
+          </div>
+          <div class="col-md-3">
+            <%= link_to "x", order_item_path(id: order_item.id), method: :delete %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <%= form_for order_item do |f| %>
+              <div class="form-group">
+                <%= f.label :quantity, class: "quantity-title" %>
+                <%= f.number_field :quantity, class: "cart-quantity form-control", min: 1 %>
+                <%= f.submit "Update", class: "btn btn-default" %>
+              </div>
+            <% end %>
+          </div>
+          <div class="col-md-3">
+            <p>Item Subtotal</p>
+            <p>$<%= number_with_precision(order_item.product.price * order_item.quantity, :precision => 2, :delimiter => ',') %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  <% end %>
+<% end %>

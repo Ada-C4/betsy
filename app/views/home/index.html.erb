@@ -1,0 +1,57 @@
+<%= render partial:'cat_nav', locals:{ merchants: @merchants, categories: @categories } %>
+
+
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h1>Dumbledore's Picks</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div id="myCarousel" class="carousel" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox">
+        <% @featured_products.each_with_index do |product, index| %>
+          <% if index == 0 %>
+            <% first_class = "active" %>
+          <% end %>
+            <% if !product.retire? %>
+            <div class="item <%= first_class %> product-image-container">
+                <%= link_to image_tag(product.photo_url, class: "thumbnail-image"), product %>
+
+              <div class="carousel-caption">
+              <strong><%= link_to product.name, product, class: "caption-name" %></strong>
+              $<%= number_with_precision(product.price, :precision => 2, :delimiter => ',') %>
+              </div>
+            </div>
+            <% end %>
+          <% end %>
+      </div>
+
+      <!-- Left and right controls -->
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="new-caption-area text-center"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>
