@@ -1,0 +1,63 @@
+<% if !flash[:error].nil? %>
+  <div class="alert alert-danger"><%= flash.now[:error] %></div>
+<% end %>
+
+<div class="col-md-8 col-md-offset-2">
+  <h2 class="title">Almost done! Here is your order summary:</h2>
+  <p><strong>You must confirm or cancel your order below.</strong></p>
+  <h3>Order Information</h3>
+  <table class="table table-hover table-bordered">
+    <tr class="">
+      <th>Order Total Amount</th>
+      <th>Time Purchased</th>
+      <th>Current Status</th>
+    </tr>
+
+    <tr class="valign">
+      <td class="text-center">
+        <%= number_to_currency(@completed_order.total_amount) %>
+      </td>
+      <td class="text-center">
+        <%= @completed_order.updated_at.to_formatted_s(:short) %>
+      </td>
+      <td class="text-center">
+        <%= @completed_order.status.capitalize %>
+      </td>
+    </tr>
+  </table>
+
+  <h3>Products in my order</h3>
+  <table class="table table-hover table-bordered">
+    <tr class="">
+      <th>Product</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Total Cost</th>
+    </tr>
+
+    <% @completed_order.orderitems.each do |item| %>
+      <tr class="valign">
+        <td>
+          <%= link_to product_path(item.product) do %>
+            <%= image_tag item.product.picture_url, class: "dashboard" %><br>
+            <%= item.product.name.titlecase %>
+          <% end %>
+        </td>
+        <td class="text-center">
+          <%= number_to_currency(item.product.price) %>
+        </td>
+        <td class="text-center">
+          <%= item.quantity %>
+        </td>
+        <td class="text-center">
+          <%= number_to_currency(item.product.price * item.quantity) %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  <p class="title-buttons">
+    <%= link_to "Cancel this order", cancel_path, method: :patch, data: { confirm: 'Are you sure you want to cancel this order?' }, class: 'btn btn-danger' %>
+    <%= link_to "Confirm this order", finalize_path, method: :patch, class: 'btn btn-success' %>
+  </p>
+
+</div>

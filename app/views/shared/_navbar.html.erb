@@ -1,0 +1,57 @@
+<nav>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <%= link_to image_tag("Blue-Robot.png", class:"main-bot pull-left"), root_path %>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to "BOTsy", root_path, class: "navbar-brand" %>
+    </div>
+
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+          <li class="navbar-text"><%= form_tag(products_path, :method => "get", id: "search-form") do %>
+          <i class="fa fa-search"><%= text_field_tag :search, params[:search], placeholder: "Search Products", class: "search-box" %></i>
+          <%= submit_tag "Search", class: "search" %>
+        <% end %></li>
+            <li><%= link_to "All Products", products_path %> </li>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">By Category</li>
+            <% @categories.each do |category| %>
+              <li><%= link_to category.name.capitalize, by_category_path(category.name) %></li>
+            <% end %>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">By Robot</li>
+            <% @robots.each do |robot| %>
+              <li><%= link_to robot.username, by_robot_path(robot) %></li>
+            <% end %>
+            <li role="separator" class="divider"></li>
+
+          </ul>
+        </li>
+      </ul>
+
+
+      <ul class="nav navbar-nav navbar-right">
+        <% if current_robot.nil? %>
+          <li><%= link_to "Robot Login", login_path %></li>
+          <li><%= link_to "Robot Signup", signup_path %></li>
+        <% else %>
+         <li><%= link_to "Logout", logout_path %></li>
+         <li><%= link_to "Account Info", robot_path(current_robot) %></li>
+        <% end %>
+        <li class="navbar-link"><%= link_to "#{@current_order.total_items}", orders_path, class: "glyphicon glyphicon-shopping-cart cart" %></li></li>
+        <li class="navbar-text">  </li>
+
+      </ul>
+  </div>
+</div>
+</div>
+</nav>

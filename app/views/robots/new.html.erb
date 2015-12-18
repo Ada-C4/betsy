@@ -1,0 +1,22 @@
+<div class="center-div">
+  <h1>Create Robot</h1><br>
+  <div class="form-group">
+    <% if @robot.errors.any? %>
+      <% for message in @robot.errors.full_messages %>
+        <div class="alert alert-danger"><%= flash.now[:error] %><%= message %></div>
+      <% end %>
+    <% end %>
+
+    <%= form_for @robot do |f| %>
+      <%= f.label :username %>
+      <%= f.text_field :username, placeholder: ' Username', :class => "form-control" %><br>
+      <%= f.label :email %>
+      <%= f.email_field :email, placeholder: ' Email', :class => "form-control" %><br>
+      <%= f.label :password %>
+      <%= f.password_field :password, placeholder: 'Password', :class => "form-control" %><br>
+      <%= f.label "Confirm Password" %>
+      <%= f.password_field :password_confirmation, placeholder: 'Confirm Password', :class => "form-control" %><br>
+      <%= f.submit :class => 'btn btn-default'%>
+    <% end %>
+  </div>
+</div>

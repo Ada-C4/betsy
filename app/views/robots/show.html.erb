@@ -1,0 +1,44 @@
+<div class="col-md-8 col-md-offset-2">
+  <h1 class="title"><%= current_robot.username.titlecase %>'s Products</h1>
+  <p class="title-buttons">
+    <%= link_to "Account Orders", robot_fulfillment_path(current_robot), class: 'btn btn-default' %>
+    <%= link_to "Add Product", new_product_path(current_robot), class: 'btn btn-default' %>
+    <%= link_to "Add Category", new_category_path, class: 'btn btn-default' %>
+  </p>
+
+  <% unless current_robot.products.nil? %>
+  
+    <table class="table table-hover table-bordered">
+      <tr class="">
+        <th>Product</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Update</th>
+        <th>Retire</th>
+      </tr>
+
+      <% current_robot.products.each do |product| %>
+        <tr class="valign">
+          <td>
+            <%= link_to product_path(product) do %>
+              <%= image_tag product.picture_url, class: "dashboard" %><br>
+              <%= product.name.titlecase %>
+            <% end %>
+          </td>
+          <td class="text-center">
+            <%= number_to_currency(product.price) %>
+          </td>
+          <td class="text-center">
+            <%= product.stock %>
+          </td>
+          <td class="text-center">
+            <%= link_to "Edit", edit_product_path(product), class: 'btn btn-info' %>
+          </td>
+          <td class="text-center">
+            <%= button_to status(product), retire_path(product), method: 'patch', class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>

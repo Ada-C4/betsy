@@ -1,0 +1,31 @@
+<div class="container">
+<h1 class="form-header"><center><%= title %></center></h1>
+  <div class="row">
+    <% sorted.each do |product| %>
+      <div class="col-md-4">
+        <div class="thumbnail container-fluid">
+
+          <%= link_to product_path(product.id) do %>
+            <%= image_tag(product.picture_url, class: "img-rounded products") %>
+            <h4 class="text-center"><%= product.name %></h4>
+          <% end %>
+
+            <div class="price">
+              <h5 class="pull-right"> <%= number_to_currency(product.price) %></h5>
+              <!-- <p>Stock: <%= product.stock %></p> -->
+            </div>
+
+            <div class="review">
+              <% if product.reviews.count == 0 %>
+                <p>No Rating</p>
+              <% else %>
+                <p><div class="star"><%= render_stars(product.rating_average) %></p></div>
+              <% end %>
+              <!-- <p><%= product.reviews.count %> Reviews</p> -->
+            </div>
+
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

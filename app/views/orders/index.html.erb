@@ -1,0 +1,61 @@
+<% if !flash[:error].nil? %>
+  <div class="alert alert-danger"><%= flash.now[:error] %></div>
+<% end %>
+
+<h1 class="text-center">Items in your cart</h1>
+
+<% if @current_order.orderitems.count > 0 %>
+  <h2>Your current order has <%= @current_order.orderitems.count %> unique item<%= "s" if @current_order.orderitems.count != 1 %>
+  <small>(<%= @current_order.total_items %> item<%= "s" if @current_order.total_items != 1 %> total)</small>
+  </h2>
+  <table class="table">
+    <tr>
+      <td>
+        Item
+      </td>
+      <td>
+        Adjust quantity
+      </td>
+      <td>
+        Subtotal
+      </td>
+      <td>
+        Remove?
+      </td>
+    </tr>
+      <% @current_order.orderitems.each do |item| %>
+        <tr>
+          <td>
+            <%= link_to item.product.name, product_path(item.product) %> (<%= number_to_currency(item.product.price) %>)
+          </td>
+          <td>
+            <%= link_to '<i class="fa fa-minus fa-fw"></i>'.html_safe, less_path(id: item.product_id), method: :patch %>
+            <%= item.quantity %>
+            <%= link_to '<i class="fa fa-plus fa-fw"></i>'.html_safe, more_path(id: item.product_id), method: :patch %>
+          </td>
+          <td>
+            <%= number_to_currency(item.product.price * item.quantity) %>
+          </td>
+          <td>
+            <%= link_to '<i class="fa fa-trash-o"></i>'.html_safe, remove_path(id: item.product_id), method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      <% end %>
+  </table>
+  <h4>
+    Current cart total: <%= number_to_currency(@current_order.total_amount) %>
+  </h4>
+  <p class="title-buttons">
+    <%= link_to "Continue to checkout", checkout_path, class: "btn btn-success" %>
+  </p>
+  <%= link_to "Cancel my order", order_path(@current_order), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-xs" %>
+
+<% else %>
+  <h2 class="text-center">No items yet! Keep shopping!</h2>
+  <p class="text-center">
+    <%= image_tag("sad-robot.png") %>
+  </p>
+  <p class="text-center">
+    <%= link_to "Browse Products", products_path, class: "btn btn-default btn-lg btn-top" %>
+  </p>
+<% end %>

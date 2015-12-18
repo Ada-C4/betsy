@@ -1,43 +1,14 @@
-# bEtsy
-[b]Etsy will be an online store where a wide variety of products can be listed and sold by any user. In this project we will focus on reinforcing the major components of Rails, Model Validation, as well as introducing some more complex logic such as user authentication.
+# BOTsy
+BOTsy is online store hosting a wide variety of products made by robots. In this app we will focus on reinforcing the major components of rails, model validation, authentication as well as introducing a world in which creative, self-driven, artificially intelligent robots make goods for human consumption.  This is a world without the need for sweatshops and industrial jobs. This is a world where no human is subjugated to the misery of factory work or menial labor. This is a world where robots and human coexist in harmony, bestowing enumerable benefits of convenience and quality of life. This is BOTsy.
 
-#### In this project you will cover
+#Heroku Site
+http://botsy.herokuapp.com/
 
-- Core comprehension of:
-  - Routes
-  - Controllers
-  - Models
-  - Views
-- User based application logic
-- User authentication
-- Agile practices
-- Group project ownership
+#Dev Team
+- Logan
+- Jenna
+- Claire
 
-#### Guidelines
-
-- Groups of three or four will collaborate in pairs or individually and will report to their assigned Project Manager (one of the instructors)
-- Use a task manager like [Trello](http://trello.com) to track your team's efforts
-- Build a logical user-flow that moves across multiple controllers and models
-- Use HTML/CSS to style your website
-
-### Restrictions
-
-- Do not use gems for user authentication (such as Devise)
-
-### Getting Started
-
-1. As a group decide on an app name (this may help lead the aesthetic)
-1. As a group decide on a team name (this will amuse your instructors)
-1. Create a branch on the master repo with your team name
-1. Have one person on your team fork/clone the project master as per usual
-  1. Figure out your workflow for the project, re: Git and Task management
-1. Determine who will be the Stand Up Leader and Task Leader for the first week
-1. Create a Trello board and ensure that all team members and instructors have access
-1. Setup a basic Rails application (without using Minitest, but WITH RSpec), and submit a baseline PR with the generated application.
-
-### Expectations
-
-Build an online system for listing, selling, reviewing, and buying a wide variety of products listed by multiple merchants.
 
 #### General Requirements
 - RSpec tests for

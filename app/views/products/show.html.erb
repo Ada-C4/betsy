@@ -1,0 +1,41 @@
+<div class="container">
+<% if !flash[:success].nil? %>
+  <div class="alert alert-success"><%= flash[:success] %></div>
+<% end %>
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-2">
+    <%= link_to product_path(@product) do %>
+      <%= image_tag @product.picture_url, class: "img-responsive" %>
+    <% end %>
+  </div>
+
+  <div class="col-md-4">
+    <h2><%= @product.name %></h2>
+    <h3>Details</h3>
+      <p><%= @product.description %></p>
+    <p class="text-muted">Categories: <%= @product.show_categories %></p>
+    <h5><%= number_to_currency(@product.price) %></h5>
+
+    <%= render 'shared/orderitem_form' %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-2">
+    <% unless @product.reviews.empty? %>
+      <h3>Reviews for <%= @product.name %></h3>
+      <% @product.reviews.each do |review| %>
+        <%= review.rating.times do |star| %>
+          <%= fa_icon "star", class: 'star' %>
+        <% end %>
+        <h5><%= review.comment %></h5>
+        <br>
+      <% end %>
+    <% end %>
+    <% unless session[:robot_id] == @product.robot_id %>
+      <h3>Leave Your Review for <%= @product.name %></h3>
+      <%= render 'shared/review_form' %>
+    <% end %>
+  </div>
+</div>

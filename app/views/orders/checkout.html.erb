@@ -1,0 +1,60 @@
+<h1>Checkout</h1>
+
+<ul>
+  <% @current_order.errors.each do |column, message| %>
+    <% if column.to_s == "credit_name" %>
+      <li>
+        <strong>Name</strong> <%= message %>
+      </li>
+    <% elsif column.to_s == "credit_num" %>
+      <li>
+        <strong>Credit card number</strong> <%= message %>
+      </li>
+    <% else %>
+      <li>
+        <strong><%= column.capitalize %></strong> <%= message %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<div class="row">
+  <div class="col-md-6">
+    <%= form_for @current_order, :url => { :action => "confirm" } do |f| %>
+      <div class="form-group">
+        <%= f.label :credit_name, "Name on credit card" %>
+        <%= f.text_field :credit_name, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :credit_num, "Credit card number" %>
+        <%= f.text_field :credit_num, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :cvv, "CVV" %>
+        <%= f.text_field :cvv, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :email, "Email address" %>
+        <%= f.email_field :email, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :address, "Street address" %>
+        <%= f.text_field :address, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :city, "City" %>
+        <%= f.text_field :city, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :state, "State" %>
+        <%= f.select :state, ["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"], {include_blank: true}, class: "form-control"  %>
+      </div>
+      <div class="form-group">
+        <%= f.label :zip, "Zip code" %>
+        <%= f.text_field :zip, class: "form-control" %>
+      </div>
+
+      <%= f.submit "Checkout", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

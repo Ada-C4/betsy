@@ -1,0 +1,19 @@
+<div class="form-group">
+ <div class="center-div">
+    <% if @category.errors.any? %>
+      <% for message in @category.errors.full_messages %>
+        <div class="alert alert-danger"><%= flash.now[:error] %><%= message %></div>
+      <% end %>
+    <% end %>
+   <%= form_for @category do |f| %>
+   <div class="col-md-8 col-md-offset-2">
+     <h1 class="form-header">Add a Category</h1>
+     <div class="form-group">
+       <%= f.label :name %>
+       <%= f.text_field :name, class: "form-control" %>
+     </div>
+     <%= f.submit class: "btn btn-success btn-center" %>
+     <% end %>
+   </div>
+ </div>
+</div>

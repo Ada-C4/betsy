@@ -1,0 +1,13 @@
+<%= form_for @review, url: product_reviews_path(params[:id]), method: 'create', class: "form-group" do |f| %>
+  <h5><%= f.label :rating, "Rating:" %></h5>
+  <% (1..5).each do |num| %>
+    <%= f.label :rating, render_stars(num), class: "star radio-inline" %>
+    <%= f.radio_button :rating, num, required: true %>
+  <% end %>
+  <br><br>
+  <h5><%= f.label :comment, "Leave a Comment:" %></h5>
+  <%= f.text_area :comment, class: "form-control" %><br>
+  <%= f.hidden_field :product_id, value: @product.id %>
+  <%= f.submit "Submit", class: "btn btn-default" %>
+<% end %>
+<br><br>

@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
-# Style 
+# Style
 gem "font-awesome-rails"
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.5.1'
+gem 'skeleton-rails', github: 'helios-technologies/skeleton-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
@@ -26,7 +27,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
@@ -39,6 +40,7 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'simplecov'
+  gem 'pry'
 end
 
 group :development do
@@ -62,4 +64,3 @@ group :production do
   gem 'pg'
   gem 'rails_12factor', '~> 0.0.3'
 end
-

@@ -1,0 +1,60 @@
+<h1 class="text-center">Order Fulfillment</h1>
+<p class="title-buttons">
+  <%= link_to "Return to Account Page", robot_path(current_robot), class: 'btn btn-default' %>
+</p>
+<h3 class="text-center">Total Revenue: $<%= current_robot.revenue %></h3>
+<br>
+<div class="row">
+  <div class='col-md-8 col-md-offset-2' >
+    <table class='table table-bordered table-hover'>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Revenue from Item</th>
+        <th>Purchase Date</th>
+        <th>Order Status</th>
+        <th>Human Info</th>
+        <th>Ship to Human</th>
+      </tr>
+      
+        <% @items.each do |item| %>
+        <tr>
+        <td>
+          <%= link_to product_path(item.product) do %>
+            <%= image_tag item.product.picture_url, class: "dashboard" %><br>
+            <%= item.product.name.titlecase %>
+          <% end %>
+        </td>
+          <td><%= item.quantity %></td>
+          <% if item.order.status == "pending" %>
+            <td class="text-primary">Pending Payment of $<%= item.product.price * item.quantity %></td>
+          <% else %>
+            <td>$<%= item.product.price * item.quantity %></td>
+          <% end %>
+          <% if item.order.status != "paid" %>
+            <td class="text-danger">No Payment</td>
+          <% else %>
+            <td><%= item.order.purchase_time %></td>
+          <% end %>
+
+          <% if item.order.status == "pending" %>
+            <td class="text-primary">Pending</td>
+          <% elsif item.order.status == "cancelled" %>
+            <td class="text-danger">Cancelled</td>
+          <% elsif item.order.complete? %>
+            <td class="text-primary">Complete: All items shipped to human.</td>
+          <% else %> 
+            <td><%= item.order.status.titlecase %></td>
+          <% end %>
+
+          <td><%= link_to "See Human", info_path(current_robot, item.order), class: "btn btn-info" %></td>
+          <% if item.order.status == "paid" %>
+            <td><%= button_to ship_status(item), ship_path(item), method: :patch, class: ship_color(item) %> </td>
+          <% else %> 
+            <td class="text-danger">No Payment</td>
+          <% end %> 
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

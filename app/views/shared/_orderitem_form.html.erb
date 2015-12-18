@@ -1,0 +1,22 @@
+<% if @product.stock != 0 %>
+  <% if !@order_item.quantity.nil? %>
+    <% verb = :patch %>
+  <% else %>
+    <% verb = :post %>
+  <% end %>
+
+  <%= form_for @order_item, url: {controller: :orderitems, action: :add_to_cart, method: verb}, class: "form-group" do |f| %>
+    <% if @product.reviews.count > 0 %>
+      <h5>Average Rating:
+      <% @product.rating_average.times do |star| %>
+        <%= fa_icon "star", class: 'star' %>
+      <% end %>
+      </h5>
+    <% end %>
+    <h5><%= @product.stock %> in stock</h5>
+    <%= f.label :quantity %>
+    <%= f.number_field :quantity, class: "quantity", :value => 1, min: 1, max: @product.stock, step: 1 %>
+    <% f.hidden_field :product_id, :value => @product.id %>
+    <%= f.submit "Add to Cart", class: "btn btn-default" %>
+  <% end %>
+<% end %>

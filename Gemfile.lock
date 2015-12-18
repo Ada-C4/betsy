@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/helios-technologies/skeleton-rails.git
+  revision: 7a0a32113ad87f439c349f629f9c5a52cdede10f
+  specs:
+    skeleton-rails (1.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -40,6 +46,7 @@ GEM
     autoprefixer-rails (6.1.2)
       execjs
       json
+    bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -64,6 +71,7 @@ GEM
     concurrent-ruby (1.0.0)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
+    docile (1.1.5)
     erubis (2.7.0)
     execjs (2.6.0)
     font-awesome-rails (4.5.0.0)
@@ -88,6 +96,7 @@ GEM
       callsite (~> 0.0, >= 0.0.11)
       rack-contrib (~> 1.1)
       railties (>= 3.0.0, < 5.0.0)
+    method_source (0.8.2)
     mime-types (2.99)
     mini_portile2 (2.0.0)
     minitest (5.8.3)
@@ -95,6 +104,10 @@ GEM
     nokogiri (1.6.7)
       mini_portile2 (~> 2.0.0.rc2)
     pg (0.18.4)
+    pry (0.10.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
     rack (1.6.4)
     rack-contrib (1.4.0)
       git-version-bump (~> 0.15)
@@ -165,6 +178,12 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    simplecov (0.11.1)
+      docile (~> 1.1.0)
+      json (~> 1.8)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
+    slop (3.6.0)
     spring (1.5.0)
     sprockets (3.5.1)
       concurrent-ruby (~> 1.0)
@@ -194,6 +213,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   better_errors
   binding_of_caller
   bootstrap-sass (~> 3.3, >= 3.3.5.1)
@@ -204,12 +224,15 @@ DEPENDENCIES
   jquery-rails
   meta_request
   pg
+  pry
   rails (= 4.2.5)
   rails-erd
   rails_12factor (~> 0.0.3)
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  simplecov
+  skeleton-rails!
   spring
   sqlite3
   turbolinks

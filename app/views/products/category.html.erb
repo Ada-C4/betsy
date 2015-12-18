@@ -1,0 +1,5 @@
+<%= render partial: "shared/products", locals:
+  {
+    sorted: @products,
+    title: "#{@category.name.titlecase} Products"
+  } %>

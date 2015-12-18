@@ -1,0 +1,9 @@
+<% if !@products.present? %>
+  <div class="alert alert-danger">There are no products containing the term(s) "<%= params[:search] %>".</div>
+<% end %>
+
+<%= render partial: "shared/products", locals:
+  {
+    sorted: @products,
+    title: "Products"
+  } %>

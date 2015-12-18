@@ -1,0 +1,140 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome";
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono|News+Gothic|Inconsolata|Droid+Sans|Roboto|Cabin|Open+Sans');
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
+
+body {
+  margin:0;
+  padding-top:65px;
+  height:100%;
+  padding-bottom: 60px;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.no-border {
+  border: none;
+  background-color: transparent;
+  color: rgb(118, 118, 118);
+}
+
+.search {
+  display: none;
+}
+
+.search-box {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: none;
+  font-size: 10pt;
+  height: 25px;
+  color: rgb(118, 118, 118);
+}
+
+.products {
+  max-width: 350px;
+  max-height: 160px;
+}
+
+.carousel-inner > .item > a > img  {
+  height:360px;
+  width: auto;
+  margin: 0 auto;
+}
+
+.carousel-control.left,
+.carousel-control.right {
+    background-image: none
+}
+
+.navbar-brand {
+  font-family: 'Roboto Mono';
+}
+
+.page-header {
+  font-family: 'Roboto Mono';
+}
+
+h1 {
+  font-family: 'Roboto Mono';
+}
+
+.center-div {
+  max-width: 50%;
+  margin: 0 auto;
+}
+
+.title, .title-buttons {
+  text-align: center;
+  padding-bottom: 20px
+}
+
+.dashboard {
+  width: 100px;
+  height: auto;
+}
+
+.footer {
+  width:100%;
+  text-align: center;
+  background-color: #F8F8F8;
+  height:52px;
+  position:fixed;
+  bottom:0;
+  left:0;
+}
+
+.star {
+  color: gold;
+  text-shadow: 1px 1px 1px #ccc;
+  font-size: 1em;
+}
+
+.quantity {
+  width: 10%;
+}
+
+.show {
+  width: auto;
+  height: 250px;
+}
+
+.img-rounded {
+  width: auto;
+  height: 250px;
+}
+
+.thumbnail {
+  width: 350px;
+  margin: auto;
+}
+
+.main-bot {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+.btn-center {
+  display: block;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.form-header {
+  margin-bottom: 30px;
+}
+
+form label {
+    font-size: 16px;
+}
+
+.fa-search:before {
+  margin-right: 7px;
+}
+
+.btn-top {
+  margin-top: 20px;
+}
