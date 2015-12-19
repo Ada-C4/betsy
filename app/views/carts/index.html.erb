@@ -1,0 +1,46 @@
+<div class="container fill-empty-cart">
+<%= render 'layouts/navbar' %>
+<div class="row">
+  <div class="col-lg-1">
+  </div>
+  <div class="col-lg-10 fake-modal-cart-top">
+    <h1>Your Cart</h1>
+    <% if @cart_items.nil? %>
+      <h4>Your cart's as empty as this beach! <%= link_to "Get shopping!", root_path %></h4>
+    <% else %>
+      <% if !flash[:error].nil? %>
+        <div class= "alert alert-danger" role="alert"><%= flash[:error] %></div>
+      <% end %>
+      <table class="table table-hover">
+      <th>Item</th>
+      <th>Quantity</th>
+      <th>Price</th>
+        <% @cart_items.each do |product_id, quantity| %>
+          <% if quantity > 0 %>
+            <tr>
+              <td><%= Product.find(product_id).name %></td>
+              <td><%= link_to "+", add_quantity_path(product_id), method: :post, class: "btn btn-primary btn-sm" %>
+                 <%= quantity %>
+                 <%= link_to "- ", remove_quantity_path(product_id), method: :post, class: "btn btn-primary btn-sm" %>
+               </td>
+               <td><%= number_to_currency(Product.find(product_id).price * quantity) %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>
+    </table>
+  </div>
+  <div class="col-lg-1">
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-1">
+  </div>
+  <div class="col-lg-10 fake-modal-cart-bottom">
+    <%= link_to "Empty Cart", carts_path, method: :delete, class: "btn btn-danger" %>
+    <%= link_to "Checkout", checkout_path, class: "btn btn-primary" %>
+  </div>
+  <div class="col-lg-1">
+  </div>
+</div>
+</div>

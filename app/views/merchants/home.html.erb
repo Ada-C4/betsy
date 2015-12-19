@@ -1,0 +1,14 @@
+<div class="container fill-home">
+  <%= render 'layouts/navbar' %>
+  <div class="row">
+    <div class="col-sm-4 col-sm-offset-4 fake-modal">
+      <h2 class="home-head">Welcome, <%= @current_merchant.username %>!</h2>
+      <ul class="list-group">
+        <li class="list-group-item"><%= link_to "Manage Products", merchant_products_path(@current_merchant.id) %></li>
+        <li class="list-group-item"><%= link_to "Manage Orders", merchant_orders_path(@current_merchant.id) %></li>
+        <li class="list-group-item"><%= link_to "Create a New Category", new_category_path %></li>
+      </ul>
+      <br>
+    </div>
+  </div>
+</div>

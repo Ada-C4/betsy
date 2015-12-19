@@ -1,0 +1,5 @@
+<% if !session[:user_id].nil? %>
+  <%= render 'merchants/merchant_navbar' %>
+<% else %>
+  <%= render 'welcome/guest_navbar' %>
+<% end %>

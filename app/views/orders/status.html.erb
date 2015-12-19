@@ -1,0 +1,47 @@
+<div class="container">
+    <%= render 'layouts/navbar' %>
+  <div class="row">
+    <div class="col-lg-12">
+      <h1><%= @status.capitalize %> Orders</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h3>Total Revenue: <%= number_to_currency(@total_revenue) %></h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h3>Orders:</h3>
+
+      <table class="table table-hover">
+      <th>Order</th>
+      <th>Date</th>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Subtotal</th>
+      <th>Status</th>
+      <th>Edit Status</th>
+        <% @orderitems.each do |orderitem| %>
+          <tr>
+            <td><%= link_to orderitem.order_id, merchant_order_path(@current_merchant.id, orderitem.order_id) %></td>
+            <td><%= orderitem.created_at.to_date %></td>
+            <td><%= link_to Product.find(orderitem.product_id).name, product_path(Product.find(orderitem.product_id).id) %></td>
+            <td><%= number_to_currency(Product.find(orderitem.product_id).price) %></td>
+            <td><%= orderitem.quantity %></td>
+            <td><%= number_to_currency(Product.find(orderitem.product_id).price * orderitem.quantity) %></td>
+            <td><%= orderitem.order.status %></td>
+            <td><%= link_to "Edit Status", edit_merchant_order_item_path(@current_merchant.id, orderitem.id) %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <div class="col-lg-12">
+      <h4>Total Orders: <%= @orderitems.length %> </h4>
+    </div>
+  </div>
+
+</div>

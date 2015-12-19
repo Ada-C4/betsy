@@ -1,0 +1,37 @@
+<div class="container fill-register">
+  <%= render 'layouts/navbar' %>
+  <% if !@merchant.errors.empty? %>
+    <div class="row">
+      <div class= "alert alert-danger" role="alert">
+        <ul>
+          <% @merchant.errors.each do |column, message| %>
+            <li><strong><%= column.capitalize %></strong>: <%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4 fake-modal">
+      <h1>Create New Account</h1>
+      <%= form_for @merchant, class: "form" do |f| %>
+        <%= f.label "Username:" %>
+        <%= f.text_field :username, class: "form-control" %>
+        <%= f.label "Email address:" %>
+        <%= f.email_field :email, class: "form-control" %>
+        <%= f.label "Password:" %>
+        <%= f.password_field :password, class: "form-control" %>
+        <%= f.label "Confirm password:" %>
+        <%= f.password_field :password_confirmation, class: "form-control" %>
+        <br>
+        <%= f.submit class: "btn btn-danger" %>
+        <br>
+        <br>
+      <% end %>
+    </div>
+    <div class="col-md-4">
+    </div>
+  </div>
+</div>

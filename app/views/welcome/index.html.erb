@@ -1,0 +1,26 @@
+<div class="jumbotron">
+  <h2><span class="brand">SEABAY</span> is your #1 stop shop for all things related to the sea!</h2>
+</div>
+<div class="container container-home-page">
+  <%= render 'layouts/navbar' %>
+  <% @categories.each_with_index do |cat, i| %>
+    <% if i.odd? %>
+      <div class="row">
+    <% end %>
+    <div class="col-sm-6 col-md-6">
+      <div class="thumbnail-home-page">
+         <% if cat.image_file_name.nil? %>
+          <img src="<%= cat.photo_url %>" alt="<% cat.name %>">
+         <% else %>
+          <%= image_tag(cat.image.url(:home))%>
+         <% end %>
+        <div class="caption caption-home-page">
+          <%= link_to cat.name, category_path(cat.id), class: "h3" %>
+        </div>
+      </div>
+    </div>
+    <% if i.odd? %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

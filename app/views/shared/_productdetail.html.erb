@@ -1,0 +1,31 @@
+  <%= form_for [@current_merchant, @product], html: { multipart: true }, url: { action: @action}, method: @method, :html => { :class => "form"} do |f| %>
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, :required => true, class:"form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :price %>
+      <div class="input-group">
+       <div class="input-group-addon">$</div>
+       <%= f.number_field :price, in: 0.01..1000000000, step: 0.01, :required => true, class:"form-control" %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :description %>
+      <%= f.text_area :description, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :category %>
+      <div class="form-control">
+          <%= f.collection_check_boxes :category_ids, Category.all, :id, :name %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :quantity %>
+      <%= f.number_field :quantity, in: 1...100000, step: 1, :required => true, class:"form-control" %>
+    </div>
+    <%= f.label :image %>
+    <%= f.file_field :image %>
+    <br>
+    <%= f.submit value:"Save", class:"btn btn-default" %>
+  <% end %>

@@ -1,0 +1,26 @@
+<div class="container">
+  <%= render 'layouts/navbar' %>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Edit OrderItem Status</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="form-group">
+        <%= form_for [@current_merchant, @orderitem], url: { action: "update"}, method: :patch, class: "form" do |f| %>
+          <div class="form-group">
+            <%= f.radio_button :status, "not shipped", class: "radio-inline" %>
+            <%= label :status, "Not Shipped" %>
+            <br>
+            <%= f.radio_button :status, "shipped", label: "Shipped", class: "radio-inline" %>
+            <%= label :status, "Shipped" %>
+          </div>
+          <%= f.submit "Edit", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div

@@ -1,0 +1,82 @@
+<div class="container">
+  <%= render 'layouts/navbar' %>
+
+  <% if !flash[:error].nil? %>
+    <div class= "alert alert-danger" role="alert"><%= flash[:error] %></div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-5">
+      <% if @product.image_file_name.nil? %>
+        <%= image_tag(@product.photo_url, :size => "300") %>
+      <% else %>
+      <%= image_tag(@product.image.url(:medium))%>
+      <% end %>
+    </div>
+    <div class="col-md-7">
+      <% if @product.status == "Active" && @product.quantity != 0 %>
+        <h1><%= @product.name %></h1>
+        <h4>Sold by: <%= link_to @product.merchant.username, merchant_path(@product.merchant_id) %></h4>
+        <br>
+        <h4>Price: <%= number_to_currency(@product.price) %></h4>
+        <%= link_to "Add to Cart", add_quantity_path(@product.id), :class => "btn btn-success btn-sm", :method => :post %>
+        <p>Remaining Stock: <%= @product.quantity %></p>
+        <!-- <%= link_to "-", remove_quantity_path(@product.id), :class => "btn btn-primary btn-sm", :method => :post %> -->
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Description:</h3>
+      <p><%= @product.description %></p>
+      <% if @product.description.length == 0 %>
+      <p>For just <%= number_to_currency(@product.price) %>, this ocean-related item can soon be yours!</p>
+      <% end %>
+      <br>
+  <h3>Average rating:</h3>
+  <% if @reviews.length != 0 %>
+    <% @average.times do |average| %>
+      <%= image_tag("starfish.jpg", size: "15x15", alt: "Starfish rating") %>
+    <% end %>
+  <% else %>
+   <p> This product does not yet have a review. If you've purchased this product, leave it a starry review!</p>
+  <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Reviews:</h3>
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Rating</th>
+            <th>Comment</th>
+          </tr>
+          <% @reviews.each do |review| %>
+              <% each_review = review.rating %>
+              <tr><td><% each_review.times do |rating| %>
+                <%= image_tag("starfish.jpg", size: "15x15", alt: "Starfish rating") %>
+              <% end %></td>
+              <td><%= review.description %></td>
+            </tr>
+          <% end %>
+          <% if @reviews.count == 0 %>
+          <tr>
+            <td colspan="2"> There are currently no reviews for this product.</td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <% if @can_review %>
+        <%= render partial: "shared/formforreviews" %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="jumbotron-category" style='background:
+    linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.2),
+    rgba(0, 0, 0, 0.3)
+  ),
+  url(<%= @category.jumbotron_photo_url %>) no-repeat center center;
+background-position:
+<% if @category.name == "Seashells" %>
+  50% 80%;'>
+<% elsif @category.name == "Clothing & Accessories" %>
+  20% 90%;'>
+<% else %>
+  50% 20%;'>
+<% end %>
+  <h2><%= @category.name.upcase %></h2>
+</div>
+<div class="container container-home-page">
+  <%= render 'layouts/navbar' %>
+  <% @category.products.each_with_index do |product, i| %>
+  <% if product.status == "Active" && product.quantity != 0 %>
+      <% if i + 1 % 3 == 0 %>
+        <div class="row">
+      <% end %>
+      <div class="col-sm-4 col-md-4">
+        <div class="thumbnail">
+          <% if product.image_file_name.nil? %>
+            <%= image_tag(product.photo_url, :size => "300") %>
+          <% else %>
+          <%= image_tag(product.image.url(:medium))%>
+          <% end %>
+          <div class="caption">
+            <%= link_to product.name, product_path(product.id), class: "h3" %>
+          </div>
+        </div>
+      </div>
+      <% if i + 1 % 3 == 0 %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if @category.products.count == 0 %>
+    <h3> We're sorry, there are currently no products in the <%= @category.name %> category.</h3>
+  <% end %>
+</div>

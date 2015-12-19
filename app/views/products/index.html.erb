@@ -1,0 +1,34 @@
+<div class="container">
+  <%= render 'layouts/navbar' %>
+<table class="table table-striped table-hover">
+  <thead class="thead-default">
+    <tr>
+      <th>My Products</th>
+      <th> </th>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @current_merchant.products.each do |product| %>
+    <tr>
+      <td><%= link_to product.name, product_path(product.id) %></td>
+      <td><%= link_to "Edit", edit_merchant_product_path(@current_merchant.id, product.id) %></td>
+      <td><%= link_to "Delete", merchant_product_path(@current_merchant.id, product.id), method: :delete, data: {confirm: "Confirm Deletion"} %></td>
+       <% if product.status == "Active" %>
+        <td><%= link_to "Retire Product", retire_product_path(product.id), method: :patch %></td>
+       <% else %>
+        <td><%= link_to "Activate Product", activate_product_path(product.id), method: :patch %></td>
+      <% end %>
+    </tr>
+    <% end %>
+    <% if @current_merchant.products.count == 0 %>
+      <tr>
+        <td>There are currently no products to sell. Please add some.</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<%= link_to "Add A New Product", new_merchant_product_path(@current_merchant.id), class:"btn btn-default" %>
+</div>

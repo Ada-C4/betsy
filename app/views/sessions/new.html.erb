@@ -1,0 +1,29 @@
+<div class="container fill-login">
+  <%= render 'layouts/navbar' %>
+  <div class="row">
+    <div class="col-lg-12">
+      <% if !flash.now[:error].nil? %>
+        <div class= "alert alert-danger" role="alert"><%= flash.now[:error] %></div>
+      <% end %>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-4 fake-modal">
+        <h1>Login to Seabay</h1>
+        <%= form_for(:session_data, url: sessions_path) do |f| %>
+          <div class="form-group">
+            <%= f.label "Username:" %>
+            <%= f.text_field :username, class: "form-control" %>
+            <%= f.label "Password:" %>
+            <%= f.password_field :password, class: "form-control" %>
+            <br>
+            <%= f.submit "Log In", class: "btn btn-danger" %>
+          </div>
+        <% end %>
+        <div class="col-md-4">
+        </div>
+    </div>
+  </div>
+</div>
