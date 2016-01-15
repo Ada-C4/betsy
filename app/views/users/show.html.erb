@@ -1,0 +1,5 @@
+<div class="row header-box">
+  <h1><%= @user.username %></h1>
+</div>
+
+<%= render partial: 'product_view', locals: {collection: @user.products.where(retired: false)} %>

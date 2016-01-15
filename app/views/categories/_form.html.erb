@@ -1,0 +1,19 @@
+<%= form_for @category, url: {action: @action }, :html => { :class => "form" } do |f| %>
+  <fieldset>
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description %>
+      <%= f.text_field :description, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.hidden_field :user_id, :value => session[:user_id] %>
+    </div>
+
+  </fieldset>
+  <%= f.submit class: "btn btn-info" %>
+<% end %>

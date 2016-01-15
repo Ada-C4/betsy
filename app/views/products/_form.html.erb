@@ -1,0 +1,54 @@
+<ul>
+  <% @product.errors.each do |column, message| %>
+    <li>
+      <strong><%= column.capitalize %></strong> <%= message %>
+    </li>
+  <% end %>
+</ul>
+
+
+<%= form_for @product, url: {action: @action}, :html => { :class => "form" } do |f| %>
+  <fieldset>
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: "form-control", :required => true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description %>
+      <%= f.text_field :description, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :price %>
+      <%= f.text_field :price, class: "form-control", :required => true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :photo_url %>
+      <%= f.url_field :photo_url, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :stock %>
+      <%= f.number_field :stock, class: "form-control", :required => true %>
+    </div>
+
+    <div class="form-group">
+    <%= f.label :category, "Categories" %><br>
+    <%= f.collection_check_boxes :category_ids, Category.all, :id, :name do |b| %>
+      <%= b.check_box %>
+      <%= b.label %><br>
+    <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :retired, "Check to retire this product" %><br>
+      <%= f.check_box :retired %>
+      <%= f.label :retired, "Retired" %>
+    </div>
+
+    <%= f.hidden_field :user_id, :value => session[:user_id] %>
+  </fieldset>
+  <%= f.submit class: "btn btn-info" %>
+<% end %>

@@ -1,2 +1,276 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "font-awesome";
+
+$teal: #159E98;
+$other-highlight: #218578;
+$teal-grey: #32A69B;
+$dark-teal: #238479;
+$rust: #C18763;
+$yellow: #D6D8A6;
+
+$light-contrast: $teal-grey;
+$flash: #75E8E1;
+$highlight: $teal;
+$neutral: $yellow;
+
+/*$body: 'IM Fell DW Pica';*/
+$body: 'Tinos';
+$header: 'Tinos';
+
+.each-merchant {
+  padding-bottom: 70px;
+}
+
+.merchant-name {
+  padding-bottom: 20px;
+  text-align: center;
+  max-width: 380px;
+}
+
+.centerBlock {
+  display: table;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+            }
+
+.product-names {
+  text-align: center;
+}
+
+.emptycart {
+  text-align: center;
+}
+
+.flash {
+  background-color: $flash;
+  text-align: center;
+  font-size: 16px;
+  padding: 5px;
+  margin: 5px;
+}
+
+.front-pg {
+  text-align: center;
+  font-family: $body, serif;
+  font-size: 64px;
+}
+
+.front-pg-link {
+  color: black;
+}
+
+.header-box {
+  padding: 20px;
+  background-color: $light-contrast;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.button-box {
+  padding-bottom: 25px;
+}
+
+.col-xs-12 {
+  text-align: center;
+}
+
+body {
+  font-family: $body, serif;
+}
+
+.front-pg2 {
+  font-family: $header, serif;
+  text-align: center;
+  font-size: 20px;
+}
+
+.jumbotron {
+  background-image: image-url("quartzy.png");
+  background-size: cover;
+
+}
+
+.home_img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto
+}
+
+.cntr {
+  text-align: center;
+}
+
+h1 {
+    font-family: $header, serif;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-family: $header, serif;
+}
+
+h3 {
+    font-family: $header, serif;
+}
+
+h4 {
+    font-family: $header, serif;
+}
+
+h5 {
+    font-family: $header, serif;
+}
+
+.cntr-header {
+  text-align: center;
+}
+
+.navbar {
+  font-family: $header;
+  border:1px solid #ccc;
+  border-width:1px 0;
+  margin:0;
+  padding:15px;
+  text-align:center;
+  word-spacing: 10px;
+  text-transform: uppercase;
+}
+
+.mark_shipped {
+
+}
+
+.cat-navbar {
+
+}
+
+
+.category-box{
+  margin: auto;
+  padding: 7px;
+  border: 1px solid $highlight;
+}
+
+.product-page-img {
+  max-width: 250px;
+  max-height: 200px;
+  min-height: 200px;
+}
+
+.cart-img {
+  max-width: 150px;
+  height: auto;
+  max-height: 200px;
+}
+
+a {
+  color: $highlight;
+  text-decoration: none;
+}
+
+a:hover {
+  color: $other-highlight;
+  text-decoration: none;
+}
+
+
+.table-master {
+  font-family: $body;
+  font-size: 17px;
+
+}
+
+.form-control {
+  width: 50%;
+  font-family: $body;
+  font-size: 17px;
+}
+
+.form-group {
+  margin-left: 50px;
+}
+
+.col-sm-4 {
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.col-sm-6 {
+  margin-top: 20px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.spacer {
+  margin: 10px;
+}
+
+.rating {
+  list-style-image: none;
+}
+
+.fa {
+  color: #FFD700;
+}
+
+.btn {
+  font-size: 14px;
+  font-family: $header;
+  border: none;
+}
+
+.center {
+  margin: auto;
+  display: block;
+}
+
+.btn-success {
+  background-color: $dark-teal;
+}
+
+.btn-success:hover {
+  background-color: $flash;
+}
+
+.btn-success:active {
+  background-color: $flash;
+}
+
+.btn-danger {
+ background-color: $rust;
+ border: none;
+}
+
+.btn-default {
+  background-color: $other-highlight;
+  border: none;
+}
+
+.btn-default:hover {
+  background-color: $rust;
+}
+
+.btn-default:active {
+  background-color: $rust;
+}
+
+.btn-info {
+  background-color: $teal;
+}
+
+.rating-btn {
+  margin-top: 7px;
+}
+
+.category_list {
+  padding: 0;
+  list-style-type: none;
+}
+
+.dash-list {
+  list-style-type: none;
+}

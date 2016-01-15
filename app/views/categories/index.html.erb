@@ -1,0 +1,39 @@
+<%= render 'cat_navbar' %>
+<div class="row">
+  <h1 class="header-box">
+    Products by Category
+  </h1>
+</div>
+
+  <% @cat.to_ary.in_groups_of(3, false) do |group| %>
+    <div class="row">
+      <% group.each do |cat| %>
+        <div class="col-sm-4">
+          <div class="centerBlock each-merchant">
+            <h2 class="merchant-name">
+              <%= link_to "#{cat.name}", category_path(cat), class: 'category-box' %>
+            </h2>
+          <% cat.top(3).each do |p| %>
+              <div class="centerBlock product-page-img-container">
+                <%= image_tag "#{p.photo_url}", class: "img-responsive, product-page-img" %>
+              </div>
+              <h4 class="product-names">
+                <%= link_to "#{p.name}", product_path(p) %>
+              </h4>
+             <div class="centerBlock">
+              <% if @current_user != nil %>
+                <% if p.user_id != @current_user.id && !p.out_of_stock? %>
+                  <%= button_to "Add to Cart", buy_path(p.id), class: "btn btn-success" %>
+                 <% end %>
+                <% elsif @current_user.nil? && !p.out_of_stock? %>
+                  <%= button_to "Add to Cart", buy_path(p.id), class: "btn btn-success" %>
+                  <% elsif p.out_of_stock? %>
+                     <%= button_to "OUT OF STOCK" %>
+              <% end %>
+            </div>
+        <% end %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  <% end %>

@@ -1,0 +1,30 @@
+<h1 class="header-box"><%= @user.username %><br></h1>
+<h2> Active Products </h2>
+<table class='table'>
+   <tr>
+      <% @user.products.where(retired:false).each  do |product| %>
+      <td> <%= link_to "#{product.name}", product_path(product) %> </td>
+      <td> In stock:  <%= product.stock %>
+      <td> <%= link_to "Edit", edit_product_path(product), method: :get, class: "btn btn-default" %></td>
+      <td> <%= link_to "Delete", product_path(product), method: :delete, class: "btn btn-danger" %></td>
+      <td> <%= link_to "Retire", retire_path(product), method: :patch, class: "btn btn-info" %></td>
+    </tr>
+    <% end %>
+</table>
+<%= link_to "Add a New Product", new_product_path, method: :get %> <br>
+<%= link_to "Add a New Category", new_category_path, method: :get %>
+
+
+<h2> Inactive Products </h2>
+
+<table class='table'>
+   <tr>
+  <% @user.products.where(retired:true).each  do |product| %>
+  </tr>
+      <td> <h4><%= link_to "#{product.name}", product_path(product) %></h4> </td>
+      <td> In stock: <%= product.stock %>
+      <td> <%= link_to "Edit", edit_product_path(product), method: :get, class: "btn btn-default" %></td>
+      <td><%= link_to "Delete", product_path(product), method: :delete, class: "btn btn-default" %></td>
+      <td> <%= link_to "Activate", retire_path(product), method: :patch, class: "btn btn-success" %></td>
+    <% end %>
+</table>

@@ -1,0 +1,47 @@
+<h1 class="header-box">
+  Hello, <%= @user.username %>
+</h1>
+
+
+  <div class="row">
+    <div class="col-sm-6">
+      <% if @user.products.length != 0 %>
+      <h2>
+        <%= link_to 'Top Selling Products', user_products_dash_path(@user) %>
+      </h2>
+      <ul class="dash-list">
+        <% Product.top_selling(@user.products, 3).each do |product| %>
+        <h4>
+          <li class="dash-list">
+            <%= link_to "#{product.name}", product_path(product) %>
+          </li>
+        </h4>
+        <% end %>
+      </ul>
+      <% else %>
+        <h3 class="cntr">
+          You don't have any products yet. 
+        </h3>
+      <% end %>
+    </div>
+    <div class="col-sm-6">
+      <% if @user.orders.length != 0 %>
+      <h2>
+        <%= link_to 'Recent Orders', user_order_dash_path(@user) %>
+      </h2>
+      <ul class="dash-list">
+        <% @user.orders.sort_by{|order| order.created_at}.first(3).each do |order|  %>
+          <li>
+            <h4>
+              <%= link_to "Order #{order.id}", order_path(order.id) %>
+            </h4>
+          </li>
+        <% end %>
+      </ul>
+      <% else %>
+        <h3 class="cntr">
+          You don't have any orders yet. 
+        </h3>
+      <% end %>
+    </div>
+  </div>

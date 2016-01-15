@@ -1,0 +1,5 @@
+<div class='navbar navbar-default cat-navbar'>
+  <% @navbar_cat.each do |cat| %>
+    <%= link_to "#{cat.name}", category_path(cat) %> | 
+  <% end %>
+</div>

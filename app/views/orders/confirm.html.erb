@@ -1,0 +1,60 @@
+<div class="row">
+  <h1 class="header-box"> 
+    Order #<%= @order.id %> Confirmation 
+  </h1>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-12">
+    Name: <strong><%= @order.cc_name %></strong><br>
+    E-mail: <%= @order.email_address %><br>
+    Mailing Address: <%= @order.mailing_address %><br>
+    Order Placed: <%= @order.placed_at.strftime("%B %d, %Y") %><br>
+    Order Status: <%= @order.status.capitalize %><br>
+    <%=  %><br>
+  </div>
+</div>
+
+<div class="row">
+  <div class="table-master">
+    <table class='table table-hover'>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+      <% @order.orderitems.each do |orderitem| %>
+      <tr>
+        <td>
+          <%= link_to "#{orderitem.product.name}", product_path(orderitem.product) %>
+        </td>
+        <td>
+          <%= orderitem.quantity %>
+        </td>
+        <td>
+          <%= nice_price(orderitem.product.price * orderitem.quantity) %>
+        </td>
+      </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><strong>Total: <%= nice_price(@order.total) %></strong></td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+<div class="row header-box">
+  <div class="col-sm-3">
+  </div>
+  <div class="col-sm-3">
+    <%= button_to "Finalize Order", {action: :finalize, controller: :orders}, method: :patch, class: "btn btn-success"  %>
+  </div>
+  <div class="col-sm-3">
+    <%= button_to "Cancel Order", {action: :cancel_as_guest, controller: :orders}, method: :patch, class: "btn btn-danger" %>
+  <div class="col-sm-3">
+  </div>
+</div>

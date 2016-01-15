@@ -1,0 +1,184 @@
+<div class="row">
+  <h1 class="header-box">
+    <%= @title %>
+  </h1>
+</div>
+<div class="row">
+  <div class="table-master">
+    <table class='table table-hover'>
+      <tr>
+        <td class="table-headers">
+          Product
+        </td>
+        <td>
+          <%= @product.name %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Sold By:
+        </td>
+        <td>
+          <%= link_to @product.user.username, user_path(@product.user_id)%>
+        </td>
+      </tr>
+      <tr>
+      <tr>
+        <td class="table-headers">
+          Description
+        </td>
+        <td>
+          <%= @product.description%>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Price
+        </td>
+        <td>
+          <%= nice_price(@product.price) %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Photo
+        </td>
+        <td>
+          <%= image_tag @product.photo_url, class: 'img-responsive product-page-img' %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Stock
+        </td>
+        <td>
+          <%= @product.stock%>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Category
+        </td>
+        <td>
+          <% @product.categories.each do |category| %>
+          <ul class="category_list">
+            <li><%= category.name %></li>
+          </ul>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Average Rating
+        </td>
+        <td>
+        <% if @stars == 5 %>
+          <% 5.times do %>
+            <i class="fa fa-star"></i>
+          <% end %>
+        <% else %>
+          <% @stars.times do %>
+            <i class="fa fa-star"></i>
+          <% end %>
+          <% (5 - @stars).times do %>
+            <i class="fa fa-star-o"></i>
+          <% end %>
+        <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Reviews
+        </td>
+        <td>
+          <% @product.reviews.each do |rev| %>
+          <% if rev.rating == 5 %>
+            <% rev.rating.times do %>
+              <i class="fa fa-star"></i>
+            <% end %>
+          <% else %>
+            <% rev.rating.times do %>
+              <i class="fa fa-star"></i>
+            <% end %>
+            <% (5 - rev.rating).times do %>
+                <i class="fa fa-star-o"></i>
+            <% end %>
+          <% end %>
+          <p class="rating"><%= rev.body %></p>
+          <% end %>
+        </td>
+      </tr>
+      <% if @current_user != nil %>
+        <% if @product.user_id == @current_user.id %>
+        <tr>
+          <td class="table-headers">
+            Retired?
+          </td>
+          <td>
+            <% if @product.retired == false %>
+              No
+            <% else %>
+              Yes
+            <% end %>
+          <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+
+<% if @current_user == nil || @product.user_id != @current_user.id %>
+  <%= form_for @review, url: product_review_path(@product), :html => { :class => "sub-form" } do |f| %>
+  <fieldset>
+    <div class="form-group">
+      <%= f.label :rating, "Rate It:" %>
+      <%= f.select :rating, [1, 2, 3, 4, 5], class: "form-control" %><br>
+      <%= f.label :body, "Tell us why" %>:
+      <%= f.text_area :body, class: "form-control" %>
+      <%= f.submit class: "btn btn-default rating-btn" %>
+    </div>
+  </fieldset>
+  <% end %>
+<% end %>
+<br><br>
+
+<div class="row header-box button-box">
+  <% if @current_user != nil %>
+    <% if @product.user_id != @current_user.id %>
+    <div class="col-sm-6">
+      <% if !@product.out_of_stock? %>
+        <%= button_to "Add to Cart", buy_path(@product.id), class: "btn btn-success" %>
+      <% else %>
+        OUT OF STOCK
+      <% end %>
+    </div>
+      <div class="col-sm-6">
+        <%= button_to "All Products", products_path, method: :get, class: "btn btn-default" %>
+      </div>
+    <% else %>
+    <div class="col-sm-4">
+      <%= button_to "Edit", edit_product_path(@product), method: :get, class: "btn btn-default" %>
+    </div>
+    <div class="col-sm-4">
+      <%= button_to "Delete", product_path(@product.id), method: :delete, class: "btn btn-danger" %>
+    </div>
+    <div class="col-sm-4">
+      <%= button_to "All Products", products_path, method: :get, class: "btn btn-default" %>
+    </div>
+    <% end %>
+  <% else %>
+  <div class="col-sm-6">
+    <% if !@product.out_of_stock? %>
+      <%= button_to "Add to Cart", buy_path(@product.id), class: "btn btn-success" %>
+    <% else %>
+      OUT OF STOCK
+    <% end %>
+  </div>
+  <div class="col-sm-6">
+    <%= button_to "All Products", products_path, method: :get, class: "btn btn-default" %>
+  </div>
+  <% end %>
+</div>
+<br>

@@ -1,0 +1,44 @@
+<div class="row">
+  <h1 class="header-box"> Order <%= @order.id %></h1>
+  <h5 class="cntr-header">Order status: <%= @order.status.capitalize %></h5>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <h2>
+      Customer Information
+    </h2>
+    <strong>Name: <%= @order.cc_name %></strong><br>
+    <strong>Email:</strong> <%= @order.email_address %><br>
+    <strong>Mailing Address: </strong><%= @order.mailing_address %><br>
+    <strong>Zip: </strong><%= @order.zip %><br>
+    <strong>Last Four Digits of CC:</strong> <%= @order.last_four %><br>
+    <strong>Status: </strong> <%= @order.status.capitalize %><br>
+    <strong> Placed at:</strong> <%= @order.placed_at.strftime("%B %d, %Y") %><br>
+  </div>
+  <br><br>
+  <div class="col-sm-12">
+    <h2>
+      My Products in Order
+    </h2>
+    <table class="table">
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>Shipped?</th>
+      </tr>
+      <% @current_user.orderitems_by_order(@order).each do |orderitem| %>
+      <tr>
+        <td><%= link_to "#{orderitem.product.name}", product_path(orderitem.product) %></td>
+        <td><%= orderitem.quantity %></td>
+        <td><%= nice_price(orderitem.product.price * orderitem.quantity) %></td>
+        <% if orderitem.status != 'shipped' %>
+          <td><%= link_to "Mark Shipped", ship_path(orderitem) %></td>
+        <% else %>
+          <td><%= orderitem.status.capitalize %></td>
+        <% end %>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

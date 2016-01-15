@@ -1,0 +1,25 @@
+<% collection.to_ary.in_groups_of(3, false) do |group| %>
+  <div class="row">
+    <% group.each do |p| %>
+      <div class="col-sm-4">
+        <div class="centerBlock product-page-img-container">
+          <%= image_tag "#{p.photo_url}", class: "img-responsive, product-page-img" %>
+        </div>
+        <h3 class="product-names">
+          <%= link_to "#{p.name}", product_path(p) %>
+        </h3>
+            <div class="centerBlock">
+              <% if @current_user != nil %>
+                <% if p.user_id != @current_user.id && !p.out_of_stock? %>
+                  <%= button_to "Add to Cart", buy_path(p.id), class: "btn btn-success" %>
+                 <% end %>
+                <% elsif @current_user.nil? && !p.out_of_stock? %>
+                  <%= button_to "Add to Cart", buy_path(p.id), class: "btn btn-success" %>
+                  <% else %>
+                     OUT OF STOCK
+              <% end %>
+            </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

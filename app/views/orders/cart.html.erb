@@ -1,0 +1,86 @@
+<div class="row">
+  <h1 class="header-box">
+    Your Cart
+  </h1>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <% if @current_order == nil %>
+      <h3 class="emptycart"> Your cart is empty </h3>
+      <h3 class="emptycart"> <%= link_to "Go shopping!", products_path %> </h3>
+    <% else %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12-sm">
+    <div class="table-master">
+    <table class='table table-hover'>
+      <tr>
+        <th>Product</th>
+        <th>Description</th>
+        <th>Total</th>
+        <th>Photo</th>
+      </tr>
+      <% @current_order.orderitems.each do |orderitem| %>
+      <tr>
+        <td>
+          <%= link_to "#{orderitem.product.name}", product_path(orderitem.product) %>
+        </td>
+        <td>
+          <%= orderitem.product.description%>
+        </td>
+        <td>
+          <%= nice_price(orderitem.product.price * orderitem.quantity) %>
+        </td>
+        <td>
+          <%= image_tag orderitem.product.photo_url, class: "img-responsive cart-img" %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Category
+        </td>
+        <td>
+          <% orderitem.product.categories.each do |category| %>
+          <%= category.name %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Quantity
+        </td>
+        <td>
+          <%= form_for orderitem, url: orderitems_update_path(orderitem.id), method: :patch do |f| %>
+            <%= f.number_field :quantity, min: 1 %>
+            <%= f.submit "Change", class: "btn btn-default" %>
+            <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          <%= button_to "Remove from Cart", orderitems_delete_path(orderitem.id), method: :delete, class: "btn btn-danger" %>
+        </td>
+      </tr>
+      <% end %>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row header-box">
+  <div class="col-sm-3">
+  </div>
+  <div class="col-sm-3">
+    <%= button_to "Checkout", checkout_path, method: :get, class: "btn btn-success" %>
+  </div>
+  <div class="col-sm-3">
+    <%= button_to "Empty Cart", clear_cart_path, method: :delete, class: "btn btn-danger" %>
+  </div>
+  <div class="col-sm-3">
+  </div>
+    <br>
+  </div>
+</div>
+
+
+<% end %>

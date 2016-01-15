@@ -1,0 +1,138 @@
+<div class="row">
+  <h1 class="header-box">
+    Enter Payment Info
+  </h1>
+</div>
+<div class="row">
+  <ul>
+    <% @order.errors.each do |column, message| %>
+      <li>
+        <strong><%= column.capitalize %></strong> <%= message %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+      <%= form_for @order, url: {controller: "orders", action: "pay" }, :html => { :class => "form" } do |f| %>
+        <fieldset>
+          <div class="form-group">
+            <%= f.label :cc_name, "Name on Credit Card" %>
+            <%= f.text_field :cc_name, class: "form-control", :required => true %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :email_address, "Email" %>
+            <%= f.email_field :email_address, class: "form-control", :required => true %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :mailing_address, "Mailing Address" %>
+            <%= f.text_field :mailing_address, class: "form-control", :required => true %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :cc_number, "Credit Card Number" %>
+            <%= f.text_field :cc_cvv, class: "form-control", :required => true %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :cc_exp, "Credit Card Expiration" %>
+            <%= f.text_field :cc_exp, class: "form-control", :required => true %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :cc_cvv, "Credit Card CVV" %>
+            <%= f.text_field :cc_cvv, class: "form-control", :required => true %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :zip, "Zip Code" %>
+            <%= f.text_field :zip, class: "form-control", :required => true %>
+          </div>
+
+          <%= f.submit "Purchase", :class => 'btn btn-success' %>
+          <% end %>
+        </fieldset>
+  </div>
+</div>
+
+<div class="row">
+  <h1 class="header-box">
+     Review Your Order
+  </h1>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="table-master">
+    <table class='table table-hover'>
+      <% @order.orderitems.each do |orderitem| %>
+      <tr>
+        <td class="table-headers">
+          Product
+        </td>
+        <td>
+          <%= orderitem.product.name %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Description
+        </td>
+        <td>
+          <%= orderitem.product.description%>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Price
+        </td>
+        <td>
+          <%= nice_price(orderitem.product.price) %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Photo
+        </td>
+        <td>
+          <%= image_tag orderitem.product.photo_url %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Category
+        </td>
+        <td>
+          <% orderitem.product.categories.each do |category| %>
+          <%= category.name %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          Quantity
+        </td>
+        <td>
+          <%= orderitem.quantity %>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-headers">
+          <%= button_to "Remove from Cart", orderitems_delete_path(orderitem.id), method: :delete, class:'btn btn-danger' %>
+        </td>
+      </tr>
+      <% end %>
+      </table>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<div class="row">
+  <h1 class="header-box">
+    <%= button_to "Cancel Order", clear_cart_path, method: :delete, class:'btn btn-danger cntr-header' %>
+  </h1>
+</div>
+  <br>
+  <br>

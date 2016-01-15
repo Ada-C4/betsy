@@ -1,0 +1,23 @@
+ <div class="col-sm-12">
+    <h1 class="header-box">
+      Sign Up
+    </h1>
+      <%= form_for @user do |f| %>
+      <div class="form-group">
+      <%= f.label :username %>
+      <%= f.text_field :username,  class: "form-control" %><br>
+
+      <%= f.label :email_address %>
+      <%= f.text_field :email_address,  class: "form-control" %><br>
+
+      <%= f.label :password %>
+      <%= f.password_field :password,  class: "form-control" %><br>
+
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation,  class: "form-control" %><br>
+
+      <%= f.submit class: 'btn btn-default' %><br>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="row">
+  <h1 class="header-box">
+    <%= @user.username %>
+  </h1>
+</div>
+<div class="row">
+  <% if @user.revenue.nil? %>
+    <h2>
+      You haven't made any money yet! Get sellin'.
+    </h2>
+  <% elsif !@user.revenue.nil? %>
+    <h2>
+      Total Revenue: <%= nice_price(@user.revenue) %>
+    </h2>
+    <h4>
+      order revenue by:
+      <%= link_to "pending", user_order_dash_path(@user, rev_status: "pending") %> /
+      <%= link_to "paid", user_order_dash_path(@user, rev_status: "paid") %> /
+      <%= link_to "completed", user_order_dash_path(@user, rev_status: "completed") %> /
+      <%= link_to "cancelled", user_order_dash_path(@user, rev_status: "cancelled") %>
+    </h4>
+    <% if !session[:rev_status].nil? %>
+       <h3>
+        <% if @user.rev_by_status(session[:rev_status]).nil? %> 
+            You don't have any <%= session[:rev_status]%> orders.
+         <% else %>
+           Revenue for <%= session[:rev_status]%> orders is: <%= nice_price(@user.rev_by_status(session[:rev_status])) %>
+         <% end %>
+       </h3>
+    <% elsif session[:rev_status].nil? %>
+      <h3>
+        select a status for which you want to see total revenue
+      </h3>
+    <% end %>
+  <% end %>
+</div>
+<div class="row">
+  <h2>
+    Total Orders: <%= @user.orders.length %>
+  </h2>
+  <h3>
+    orders by status: <br>
+  </h3>
+  <h4>
+    <%= link_to "all", user_order_dash_path(@user, order_status: "all") %> /
+    <%= link_to "pending", user_order_dash_path(@user, order_status: "pending") %> /
+    <%= link_to "paid", user_order_dash_path(@user, order_status: "paid") %> /
+    <%= link_to "completed", user_order_dash_path(@user, order_status: "completed") %> /
+    <%= link_to "cancelled", user_order_dash_path(@user, order_status: "cancelled") %>
+  </h4>
+</div>
+<div class="row">
+  <table class="table">
+    <tr>
+      <th>Order #</th>
+      <th>Product</th>
+      <th>Order Placed</th>
+      <th>Order Status</th>
+      <th>Quantity</th>
+      <th>Total</th>
+      <th>Mark Shipped</th>
+    </tr>
+  <% @user.orderitems.each do |orderitem| %>
+    <% if orderitem.order.status == session[:order_status] || session[:order_status] == 'all' %>
+      <tr>
+        <td><%= link_to "#{orderitem.order.id}", order_path(orderitem.order) %></td>
+        <td><%= link_to "#{orderitem.product.name}", product_path(orderitem.product) %></td>
+        <% if !orderitem.order.placed_at.nil? %>
+          <td><%= orderitem.order.placed_at.strftime("%B %d, %Y") %></td>
+        <% else %>
+          <td>Order Pending</td>
+        <% end %>
+        <td><%= orderitem.order.status.capitalize %></td>
+        <td><%= orderitem.quantity %></td>
+        <td><%= nice_price(orderitem.product.price * orderitem.quantity) %></td>
+        <% if orderitem.order.status == "paid" && orderitem.status != 'shipped' %>
+          <td><%= link_to "Mark Shipped", ship_path(orderitem), class: "mark_shipped", method: :patch %></td>
+        <% elsif orderitem.order.status == 'cancelled' %>
+          <td>Order Canceled :(</td>
+        <% elsif orderitem.order.status == 'pending' %>
+          <td>Order Pending</td>
+        <% else %>
+          <td><%= orderitem.status.capitalize %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  <% end %>
+  </table>
+</div>

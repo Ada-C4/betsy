@@ -1,56 +1,46 @@
 Rails.application.routes.draw do
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  root to: 'welcome#index'
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  get '/sessions/new' => 'sessions#new', as: :login
+  get '/users/new' => 'users#new', as: :signup
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  get "/logout" => "sessions#destroy", as: :logout
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  get '/cart' => 'orders#cart', as: :cart
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+  delete 'cart/clear_cart' => 'orders#clear_cart', as: :clear_cart
 
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
+  delete '/cart/orderitems/:id' => 'orderitems#destroy', as: :orderitems_delete
 
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+  patch '/cart/pay' => 'orders#pay', as: :pay
 
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
+  get '/cart/checkout'  => 'orders#checkout', as: :checkout
 
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
+  get '/orders/:id/confirm' => 'orders#confirm', as: :order_confirm
 
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  patch '/orderitems/:id/ship' => 'orderitems#ship', as: :ship
+
+  patch 'orderitems/:id/update' => 'orderitems#update', as: :orderitems_update
+
+  patch 'orders/:id/finalize' => 'orders#finalize', as: :order_finalize
+
+  patch 'orders/:id/cancel_as_guest' => 'orders#cancel_as_guest', as: :order_cancel_as_guest
+
+  post '/products/:id/buy' => 'products#buy', as: :buy
+
+  get '/users/:id/dash' => 'users#dash', as: :user_dash
+
+  get 'users/:id/order_dash' => 'users#order_dash', as: :user_order_dash
+
+  get '/users/:id/products' => 'users#product_dash', as: :user_products_dash
+
+  patch '/products/:id/retire' => 'products#retire', as: :retire
+
+  resources :sessions, :only => [:new, :create]
+  resources :users
+  resources :products do
+    post "/review", to: "products#review"
+  end
+  resources :orders
+  resources :categories
 end

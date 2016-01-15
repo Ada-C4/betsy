@@ -1,0 +1,14 @@
+<div class='navbar navbar-default'>
+  <%= link_to 'Home', root_path %> |
+  <% if @current_user %>
+  <%= link_to "Dashboard", user_dash_path(@current_user) %> |
+  <%= link_to "My Orders", user_order_dash_path(@current_user) %> |
+  <%= link_to "My Products", user_products_dash_path(@current_user) %> |
+  <%= link_to "Logout", logout_path %> |
+  <% else %>
+  <%= link_to "Login", login_path %> |
+  <%= link_to "Sign Up", signup_path %> |
+  <% end %>
+  <%= link_to "Cart #{@cart_num}", cart_path %>
+<!--   <i class="fa-cart-plus"></i> -->
+</div>
