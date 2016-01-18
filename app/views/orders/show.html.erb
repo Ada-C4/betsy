@@ -1,0 +1,51 @@
+<div class="row xl-top-margin">
+  <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 box-with-shadow">
+    <h2 class="text-center">Order Details</h2>
+    <hr>
+    <table class="table table-hover table-no-border">
+      <tr>
+        <td><strong>Status:</strong></td>
+        <td><%= @order.status %></td>
+      </tr>
+      <tr>
+        <td><strong>Name:</strong></td>
+        <td><%= @order.cc_name %></td>
+      </tr>
+      <tr>
+        <td><strong>Email:</strong></td>
+        <td><%= @order.email %></td>
+      </tr>
+      <tr>
+        <td><strong>Mailing Address:</strong></td>
+        <td><%= @order.street %>
+              <br>
+            <%= @order.city %>, <%= @order.state %> <%= @order.zip %>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Credit Card:</strong></td>
+        <td><% if @order.cc_num.length <= 4 %>
+          <%= @order.cc_num %>
+        <% else %>
+          <% (@order.cc_num.length - 4).times do %>
+            *
+          <% end %>
+          <%= @order.cc_num[(@order.cc_num.length - 4)..(@order.cc_num.length - 1)] %>
+        <% end %></td>
+      </tr>
+      <tr>
+        <td><strong>Credit Card Expiration:</strong></td>
+        <td><%= readable_date(@order.cc_exp) %></td>
+      </tr>
+      <tr>
+        <td><strong>Products sold:</strong></td>
+        <td><% @order.order_items.includes(product: [:user]).each do |oi| %>
+          <% if oi.product.user == @user %>
+            <%= oi.product.name %>: <%= oi.quantity %>
+            <br>
+          <% end %>
+        <% end %></td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h2>Merchant: <%= link_to @product.user.name, user_path(@product.user.id) %></h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <ul class="list-inline">
+      <% @product.categories.each do |cat| %>
+        <%= link_to cat.name, category_path(cat.id) %>
+      <% end %>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-md-offset-1 col-sm-12"> <!-- image section -->
+    <%= image_tag @product.photo_url, alt: "product photo", class: "img-responsive" %>
+  </div> <!-- end image section -->
+  <div class="col-md-4 col-sm-12"> <!-- info section -->
+      <h2><%= @product.name %></h2>
+      <h4><%= dollar_price(@product.price) %></h4>
+      <p><%= @product.description %></p>
+      <p class="num_available"><%= @product.stock %> Available</p>
+      <% if @product.active %>
+        <%= form_tag({controller: "carts", action: "add"}, method: :post ) do %>
+        <div class="row">
+          <div class="col-xs-2">
+            <%= number_field(:product, :add_quantity, in: 1..@product.stock, step: 1, value: 1, class: "big-input") %>
+          </div>
+          <div class="col-xs-10">
+            <%= submit_tag "Add to Cart", class: "btn btn-lg btn-success btn-block" %>
+          </div>
+        </div>
+        <% end %>
+      <% else %>
+        <br>
+        <strong>This Product is Retired.</strong>
+      <% end %>
+
+      <% if !flash[:error].nil? %>
+        <%= flash[:error] %>
+      <% end %>
+
+  </div> <!-- end info section -->
+</div>
+<div class="row">
+  <div class="col-md-6 col-md-offset-1 col-sm-12">
+    <% if !logged_in? || current_user.id != params[:user_id].to_i %>
+      <h3>Purchased this Product? Leave a Review:</h3>
+      <!-- review form -->
+      <%= render "reviews/form", :review => @review, :product => @product %>
+    <% end %>
+  </div>
+  <div class="col-md-4 col-sm-12">
+    <h3>Product Reviews</h3>
+    <!-- ratings -->
+    <% @product.reviews.each do |review| %>
+    <div class="row">
+      <div class="col-sm-6">
+        <p>
+          <% review.rating.times do %>
+            <span class="glyphicon glyphicon-star"></span>
+          <% end %>
+          <% (5 - review.rating).times do %>
+            <span class="glyphicon glyphicon-star-empty"></span>
+          <% end %>
+        </p>
+      </div>
+      <div class="col-sm-6">
+        <p class="text-right"><%= readable_date(review.updated_at) %></p>
+      </div>
+    </div>
+    <% if review.description %>
+      <div class="row">
+        <div class="col-sm-12">
+          <p><%= review.description %></p>
+        </div>
+      </div>
+    <% end %>
+    <hr>
+    <% end %>
+  </div>
+</div>

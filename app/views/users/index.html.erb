@@ -1,33 +1,46 @@
 <p id="notice"><%= notice %></p>
-
-<h1>Listing Users</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Password digest</th>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.username %></td>
-        <td><%= user.email %></td>
-        <td><%= user.password_digest %></td>
-        <td><%= user.name %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<h1 class="xl-top-margin">Browse by Merchant</h1>
+<div class="row">
+  <% count = 0 %>
+  <% @users.each do |user| %>
+    <% if user.products.exists? %>
+      <!-- display featured product -->
+      <% product = user.products.max_by { |product| product.review_average } %>
+      <div class="col-sm-3 col-lg-3 col-md-3">
+        <h3 class="text-center"><%= link_to user.name.capitalize, user_products_path(user.id) %></h3>
+        <h4>Average rating: <%= user.average_rating.round(1) %></h4>
+        <h4>Most Popular Product:</h4>
+        <div class="thumbnail">
+          <div class="img-container">
+          <%= image_tag product.photo_url, alt: "product photo" %>
+          </div>
+          <div class="caption">
+              <h5 class="pull-right"><%= dollar_price(product.price) %></h5>
+              <h5><%= link_to product.name, user_product_path(product.user_id, product.id) %>
+              </h5>
+              <p class="description">
+                <% if !product.description.nil? %>
+                  <%= product.description %>
+                <% else %>
+                  <br>
+                <% end %>
+              </p>
+              <div class="row">
+                <div class="col-sm-6">
+                  <p class="num_available"><%= product.stock %> Available</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="text-right">Average rating: <%= product.review_average.round(1) %></p>
+                </div>
+              </div>
+          </div>
+        </div>
+        <!-- end display featured product -->
+      <% count += 1 %>
+      <% end %>
+    </div>
+    <% if count % 4 == 0 %>
+    </div>
+    <div class="row">
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New User', new_user_path %>
+  <% end %>

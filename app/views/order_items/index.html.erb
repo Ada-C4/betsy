@@ -1,0 +1,34 @@
+<h1> Order Items that hasn't been shipped yet </h1>
+<table class="table table-hover .table-responsive">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Subtotal</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% order_items = OrderItem.find_not_shipped(@orders) %>
+    <% order_items.each do |order_item| %>
+      <% product = Product.find(order_item.product.id) %>
+      <tr>
+        <td><%= link_to order_item.product.name, user_product_path(order_item.product.user, order_item.product) %></td>
+        <td><%= order_item.quantity %></td>
+        <td><%= dollar_price(order_item.quantity * order_item.product.price) %></td>
+        <td><%= order_item.shipped ? "Shipped" : "Not Shipped" %></td>
+        <td>
+          <% order = Order.find(order_item.order_id) %>
+          <% if order.status!= "cancelled" %>
+            <% if !order_item.shipped %>
+              <%= button_to "Mark as Shipped", shipped_path(@user.id, order.id, order_item.id), class:"btn   btn-default" %>
+            <% else %>
+              <%= button_to "Cancel Shipping", shipped_path(@user.id, order.id, order_item.id), class:"btn   btn-default" %>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>

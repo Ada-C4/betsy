@@ -15,3 +15,30 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require_tree .
+
+var resize_thumbs = function(){
+  var thumb = document.getElementsByClassName('thumbnail')[0];
+  var width = thumb.clientWidth;
+  $('.img-container').css({ "height": width+"px" });
+};
+
+$(document).ready(resize_thumbs);
+$(window).resize(resize_thumbs);
+$(document).on('page:change', resize_thumbs);
+
+/**
+ * Listen to scroll to change header opacity class
+ */
+function checkScroll(){
+    var startY = $('.navbar').height(); //The point where the navbar changes in px
+    if($(window).scrollTop() > startY || $(window).width() < 768){
+      $('.navbar').addClass("scrolled");
+    }
+    else{
+      $('.navbar').removeClass("scrolled");
+    }
+}
+
+$(window).on("scroll load resize", function(){
+  checkScroll();
+  });

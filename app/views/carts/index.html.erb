@@ -1,0 +1,46 @@
+<div class="row xl-top-margin">
+  <div class="col-md-8 col-md-offset-2 box-with-shadow">
+    <h1 class="text-center">Your Shopping Cart</h1>
+    <hr>
+    <% if session[:cart] == nil %>
+    <p> Your cart is empty. Keep shopping! </p>
+    <% else %>
+      <table class="table table-hover table-no-border">
+        <thead>
+          <th>Product</th>
+          <th>Description</th>
+          <th class="text-right">Price</th>
+          <th class="text-center">Quantity</th>
+          <th class="text-right">Subtotal</th>
+          <th></th>
+          <th></th>
+        </thead>
+        <tbody>
+          <% @cart.each do |product_id, quantity| %>
+            <% product = Product.find(product_id) %>
+            <tr>
+              <td> <%= link_to product.name, user_product_path(product.user_id, product.id) %> </td>
+              <td> <%= product.description %> </td>
+              <td class="text-right"> <%= dollar_price(product.price) %> </td>
+              <%= form_tag(cart_user_product_path(product.user.id, product.id), method: :patch) do %>
+                <td class="text-center"><%= number_field(:product, :new_quantity, in: 1..product.stock, step: 1, value: quantity) %></td>
+                <td class="text-right"> <%= dollar_price(product.price * quantity) %></td>
+                <td><%= submit_tag("Update", class: "btn btn-sm btn-default") %></td>
+              <% end %>
+              <td> <%= link_to 'Remove', remove_user_product_path(product.user_id, product.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-default" %> </td>
+            </tr>
+          <% end %>
+        </tbody>
+        </table>
+        <h3>Total <%= dollar_price(Cart.total(@cart)) %></h3>
+        <div class="text-center">
+          <%= link_to "Proceed to Checkout", checkout_new_path, class: "btn btn-default" %>
+          <%= link_to "Continue Shopping", products_path, class: "btn btn-default" %>
+        </div>
+
+    <% end %>
+    <p>
+
+    </p>
+  </div>
+</div>
