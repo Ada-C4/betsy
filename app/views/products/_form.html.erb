@@ -1,0 +1,78 @@
+<% if flash.now[:error] %>
+  <%= flash.now[:error] %>
+<% end %>
+
+<% if !@product.errors.nil? %>
+<ul>
+  <% @product.errors.each do |column, message| %>
+  <% if column == :inventory_total %>
+    <% column = "Inventory" %>
+  <% elsif column == :image_url %>
+    <% column = "Image URL" %>
+  <% end %>
+  <li>
+    <strong><%= column.capitalize %></strong> <%= message %>
+  </li>
+<% end %>
+</ul>
+<% end %>
+
+
+<%= form_for @product, url:({ action: @action }) do |f| %>
+<div class="form-group">
+  <%= f.label :name %>
+  <%= f.text_field :name, maxlength: 30, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :description %>
+  <%= f.text_field :description, maxlength: 500, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :price %>
+  <%= f.number_field :price, min:0, max:500000, class: "form-control" %>
+</div>
+
+<div class="field form-group">
+    <%= f.label :category, "Categories" %>
+    <br>
+    <% @all_categories.each do |category| %>
+
+      <% if @categories.include? category %>
+        <%= check_box_tag 'categories[]', category.id, {:checked => "checked"}  %>
+      <% else %>
+        <%= check_box_tag 'categories[]', category.id  %>
+      <% end %>
+      <%= category.name %>
+    <br>
+  <% end %>
+</div>
+
+
+
+
+<div class="form-group">
+  <%= f.label :inventory_total %>
+  <%= f.number_field :inventory_total, min:0, max:100, class: "form-control" %>
+</div>
+
+  <div class="form-group">
+    <%= f.label "Retired" %>
+    <br>
+    <%= f.label "Yes" %>
+    <%= f.radio_button(:retired, true) %>
+    <%= f.label "No" %>
+    <%= f.radio_button(:retired, false) %>
+</div>
+
+<div class="form-group">
+  <%= f.label :image_url %>
+  <%= f.url_field :image_url, class: "form-control" %>
+
+  <%= f.hidden_field :user_id, :value => session[:user_id] %>
+
+</div>
+
+<%= f.submit "Submit", class: "btn btn-primary" %>
+<% end %>

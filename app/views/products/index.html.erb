@@ -1,0 +1,31 @@
+<% if !flash[:error].nil? %>
+  <%= flash[:error] %>
+<% end %>
+
+
+<div class="row">
+  <div class="sidebar col-md-2 hidden-sm hidden-xs">
+    <%= render "sidebar" %>
+  </div>
+  <div class="dropdown visible-sm visible-xs">
+    <%= render "dropdown" %>
+  </div>
+
+  <div class="container photo-gallery">
+    <% @products.each_with_index do |product, index| %>
+      <% if index % 3 == 0 %>
+        <div class="row">
+      <% end %>
+      <div class="col-sm-4 col-xs-12">
+        <%= link_to image_tag(product.image_url), product_path(product.id) %>
+        <div class="caption">
+          <%= link_to product.name, product_path(product.id) %>
+          <span class="pull-right"><%= cents_to_dollars(product.price) %></span>
+        </div>
+      </div>
+      <% if index % 3 == 2 %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

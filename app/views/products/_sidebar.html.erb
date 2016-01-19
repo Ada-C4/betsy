@@ -1,0 +1,53 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      <%= link_to "All Products", root_path %>
+    </h4>
+  </div>
+</div>
+<div class="panel-group" id="accordion1">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+          <span class="glyphicon glyphicon-triangle-bottom pull-right"></span> Categories
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse">
+      <div class="panel-body">
+        <% @categories.each do |cat| %>
+          <% if cat.products != [] %>
+            <%= link_to(root_path(:type => 'cat', :order => cat.id)) do %>
+              <%= cat.name %>
+              <hr />
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel-group" id="accordion2">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+          <span class="glyphicon glyphicon-triangle-bottom pull-right"></span> Merchants
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse">
+      <div class="panel-body">
+        <% @merchants.each do |merch| %>
+          <% if merch.products != [] %>
+            <%= link_to(root_path(:type => 'merch',:order => merch.id)) do %>
+              <%= merch.first_name %> <%= merch.last_name %>
+            <% end %>
+            <hr />
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

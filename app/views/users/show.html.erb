@@ -1,0 +1,78 @@
+<% if !flash[:error].nil? %>
+  <%= flash[:error] %>
+<% end %>
+
+<h2>Account Details</h2>
+
+<h4>My Products</h4>
+<table class="table">
+  <% @user.products.each do |product| %>
+  <tr>
+    <% if product.retired == true %>
+      <td><strike><%= link_to product.name, user_product_path(@user.id, product.id) %></strike></td>
+    <% else %>
+      <td><%= link_to product.name, user_product_path(@user.id, product.id) %></td>
+    <% end %>
+    <td>
+      <% product.categories.each do |category| %>
+      <div class="row">
+        <%= category.name %>
+      </div>
+      <% end %>
+    </td>
+    <td><%= link_to "Edit", edit_user_product_path(@user.id, product.id) %></td>
+    <% if product.retired == true %>
+      <td></td>
+    <% else %>
+      <td><%= link_to "Retire", user_product_retire_path(@user.id, product.id), method: :post %></td>
+    <% end %>
+  </tr>
+  <% end %>
+</table>
+
+<br>
+
+<%= link_to "View Orders", user_orders_path(@user.id), class:"btn btn-default" %>
+<br>
+<br>
+
+<%= link_to "Add a New Product", new_user_product_path(@user.id), class:"btn btn-default" %>
+<br>
+<br>
+<hr>
+<div class="row">
+
+<% if !session[:message].nil? %>
+  <%= session[:message] %>
+  <% session[:message] = nil %>
+<% end %>
+
+<% if !flash[:error].nil? %>
+  <%= flash[:error] %>
+<% end %>
+
+
+</div>
+
+
+<br>
+
+<div class="row">
+
+
+<div class="col-md-4">
+
+<%= form_for :category, method: :post, url:user_categories_new_path(@user.id) do |f| %>
+  <div class="form-group">
+  <%= f.label :name, "Category Name" %> <br>
+  <%= f.text_field :name, maxlength:20, class:"form-control" %> <br>
+  </div>
+  <%= f.submit "Make New Category", class:"btn btn-default" %>
+<% end %>
+
+</div>
+
+</div>
+
+<br>
+<br>

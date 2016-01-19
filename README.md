@@ -1,5 +1,7 @@
 #### [Trello Board](https://trello.com/b/4itgX0sp/fuzzy-wuzzies)
 
+### [Heroku Link](https://fuzzi.herokuapp.com)
+
 # bEtsy
 [b]Etsy will be an online store where a wide variety of products can be listed and sold by any user. In this project we will focus on reinforcing the major components of Rails, Model Validation, as well as introducing some more complex logic such as user authentication.
 

@@ -1,0 +1,77 @@
+<h1 class="product-title"><%= @product.name %></h1>
+
+<div class="row product-pane">
+  <div class="col-sm-6">
+    <div class="row">
+        <%= image_tag @product.image_url, class: "image-responsive product-img" %>
+    </div>
+    <br>
+  </div>
+
+  <div class="col-sm-6">
+    <div class="add-cart panel">
+      <% if !flash[:error].nil? %>
+        <%= flash[:error] %>
+      <% end %>
+      <h3><%= cents_to_dollars(@product.price) %></h3>
+      <% if @product.inventory_total > 0 && !@product.retired %>
+        <%= form_for [@product, @order_item], controller: :order_items, action: :create do |f| %>
+          <%= f.label :quantity %>
+          <%= f.select :quantity, (1..@product.inventory_total), checked: true %>
+          <%= f.submit "Add to Cart", class: "btn btn-default" %>
+        <% end %>
+      <% end %>
+    </div>
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#desc">Description</a></li>
+      <li><a data-toggle="tab" href="#review">Reviews</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div id="desc" class="tab-pane fade in active">
+        <h3>Description</h3>
+        <%= @product.description %><h1> Rating: <%= @product.average_rating %></h1>
+        <br>
+        <% if @product.retired %>
+          Status: Unavailable
+        <% elsif @product.inventory_total > 0 %>
+          Status: Available
+        <% else %>
+          <h2>OUT OF STOCK!</h2>
+        <% end %>
+      </div>
+      <br>
+      <div id="review" class="tab-pane fade">
+        <%= form_for @review, url: product_review_path(@product) do |f| %>
+        <% if !flash[:rating].nil? %>
+          <%= flash[:rating] %>
+        <% end %>
+          <div class="row">
+            <div class="col-sm-9">
+              <div class="btn-group" data-toggle="buttons">
+                <% 1.upto(5) do |i| %>
+                  <%= f.label :rating, class: "btn btn-info" do %>
+                    <%= f.radio_button :rating, i %>
+                    <%= i %> <span class="glyphicon glyphicon-star-empty"></span>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+          <%= f.label :review_text, "Write a Review" %>
+          <%= f.text_area :review_text, class: "form-control"%>
+          </div>
+          <%= f.submit class: "btn btn-default" %>
+        <% end %>
+        <h3>Reviews</h3>
+        <% @reviews.each do |review| %>
+          <%= review.rating %> |
+          <%= review.review_text %>
+          <br>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
