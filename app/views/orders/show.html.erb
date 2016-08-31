@@ -1,0 +1,26 @@
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 order-container">
+    <h1 class="order-header"> ORDER DETAILS </h2>
+    <p class="text-center">Order # <%= @order.id %></p>
+    <div class="row">
+      <div class="col-md-4 order-segments">
+        <h1> Customer Information</h1>
+        <p>Name: <%= @order.customer_name %></p>
+        <p> Address: <%=@order.street_address %> <%=@order.city%>, <%=@order.state%> <%=@order.zip_code%> </p>
+        <p> Email: <%=@order.customer_email%> </p>
+      </div>
+      <div class="col-md-4">
+        <h1> Payment Information </h1>
+        <p> Card Number: XXXX-XXXX-XXXX-<%=@order.card_number%> </p>
+        <p> Exp: <%=@order.customer_card_exp_month%> / <%=@order.customer_card_exp_year%></p>
+      </div>
+      <div class="col-md-4">
+        <h1> Items Ordered </h1>
+        <% @order_items.each do |item| %>
+          <%= item.product.name %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

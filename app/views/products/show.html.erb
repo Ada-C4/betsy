@@ -1,0 +1,78 @@
+<% if @product.retire %>
+  <h2> Sorry, this product has vanished. Don't blame the house elves.</h2>
+<% else %>
+
+  <% if !flash[:error].nil? %>
+    <div class="col-md-12 text-center error-message">
+      <%= flash[:error] %>
+    </div>
+  <% end %>
+
+  <div class="col-md-12 text-center">
+    <h1> <%= @product.name %> </h1>
+    <div class ="row">
+      <div class="product-image-container">
+        <%= image_tag(@product.photo_url, class: "product-image") %>
+      </div>
+    </div>
+    <h4> Price: $<%= number_with_precision(@product.price, :precision => 2, :delimiter => ',') %> </h4>
+    <p> <%= @product.description %></p>
+
+    <%= form_for @order_item do |f| %>
+      <div class="input-group">
+        <% if @product.inventory != 0 %>
+          <%= f.number_field :quantity, value: 1, class: "form-control", min: 1 %>
+        <% end %>
+
+        <div class="input-group-btn">
+          <%= f.hidden_field :product_id, value: @product.id %>
+          <%= f.hidden_field :order_id %>
+          <% if @product.inventory != 0  %>
+            <%= f.submit "Add to Cart", class: "btn black-button" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="row">
+      <div class="col-md-12">
+        <% if @product.inventory == 0 %>
+        <div class="alert alert-warning" role="alert">
+          ITEM OUT OF STOCK
+        </div>
+        <% else %>
+        <div class="num-in-stock" role="alert">
+          <%= @product.inventory %> in stock
+        </div>
+        <% end %>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <% if !@current_user.nil? && @current_user.id == @product.merchant_id %>
+          <%= link_to "Edit Product", edit_product_path(@product.id), class: "btn btn-default" %>
+          <%= link_to "Delete Product", product_path(@product),method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default dk-gray-button" %>
+        <% else %>
+          <%= link_to "Write a Review", new_product_review_path(@product.id), class: "btn btn-default" %>
+        <% end %>
+      </div>
+    </div>
+
+
+
+
+    <hr>
+    <% if !@product.reviews.empty? %>
+      <h4 class="review-title">Reviews</h4>
+    <% end %>
+    <div>
+      <% @product.reviews.each do |review| %>
+        <ul class="review-list">
+          <li> <% review.rating.times do %><i class="fa fa-star-o fa-spin star"></i><% end %> <p class="review-description"> <%= review.description %></p></li><hr class="review-line">
+        </ul>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h1>ORDER CONFIRMATION</h1>
+    <h4>Mischief Managed. Your order has been submitted.</h4>
+    <h5>Total Cost: $<%= number_with_precision(@subtotal, :precision => 2, :delimiter => ',') %></h5>
+    <h5>Order Status: <%= @order.status %></h5>
+    <h5>Order Time: <%= @order.order_time.strftime("%m/%d/%Y %I:%M%p") %></h5>
+  </div>
+</div>
+<br>
+<br>
+<% @order.order_items.each do |order_item| %>
+  <div class="row">
+    <div class="col-md-2 col-md-offset-3">
+      <div class="cart-image-container"><%= link_to image_tag(order_item.product.photo_url,
+              class: "cart-image"), product_path(order_item.product.id) %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="product-name"><%= order_item.product.name %> from <%= order_item.product.merchant.user_name %></h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <h5>Quantity: <%= order_item.quantity %></h5>
+        </div>
+        <div class="col-md-3">
+          <!-- <span>$<%= number_with_precision(order_item.product.price, :precision => 2, :delimiter => ',') %></span> -->
+          <p>Item Subtotal</p>
+          <p>$<%= number_with_precision(order_item.product.price * order_item.quantity, :precision => 2, :delimiter => ',') %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<br>
+<br>
+<% if @current_user.nil? %>
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h5>Would you like to sell your swag? <%= link_to "Register", new_merchant_path %> to be a merchant.</h5>
+    <%= link_to "SIGN UP", new_merchant_path, class:"btn black-button margin-top" %>
+  </div>
+</div>
+<% end %>

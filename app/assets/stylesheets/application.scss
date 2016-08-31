@@ -1,0 +1,268 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ @import "font-awesome";
+ @import "bootstrap-sprockets";
+ @import "bootstrap";
+
+ body {
+   font-family: 'Quicksand', sans-serif;
+ }
+
+.thumbnail {
+  width: 300px;
+  height: 350px;
+  overflow: hidden;
+}
+
+.thumbnail-container {
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  margin:auto;
+}
+
+.thumbnail-image {
+  width: 100%;
+  height: auto;
+}
+
+.cart-image {
+  width: 100%;
+  height: auto;
+}
+
+.cart-image-container {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+}
+
+.nav-header {
+  font-family: 'Raleway', sans-serif;
+  font-size: 60px;
+  color: #000000;
+}
+
+.nav-header:hover, .nav-header:active, .cat-link:hover, .nav-link:hover {
+  text-decoration: none;
+  color: #006666;
+}
+
+.product-image-container {
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  margin: auto;
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+}
+
+.cat-link {
+  color: #000000;
+  font-size: 12px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.cat-link-container {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+// .cat-container {
+//   width:800px;
+//   margin: auto;
+// }
+
+.caption {
+  // width: 200px;
+  margin-left: 30px;
+  // margin-right: auto;
+  margin-bottom: 40px;
+}
+
+.caption-name {
+  color: #000000;
+}
+
+h1 {
+  font-size: 24px;
+  font-family: 'Quicksand', sans-serif;
+  margin-bottom: 20px;
+}
+
+.nav-link {
+  color: #000000;
+}
+
+.nav-link-container {
+  margin-top: 10px;
+  padding: 5px;
+}
+
+// the merchant dropdown object
+.merchant-dropdown {
+  background-color: #FFFFFF;
+  border-style: none;
+  font-size: 12px;
+}
+
+// the merchant dropdown div
+.dropdown {
+  display: inline;
+  margin-left: 15px;
+}
+
+.error-message {
+  color: red;
+}
+
+// reviews on product show page
+.review-title {
+  font-weight: bold;
+}
+
+.review-list {
+  list-style-type: none;
+  text-align: left;
+}
+
+.star {
+  font-size: 25px;
+  color: gold;
+  padding: 3px;
+}
+
+// text fields for forms
+.form-group {
+  max-width: 350px;
+  margin: auto;
+}
+
+// new merchant page
+.signup {
+  margin-bottom: 22px;
+}
+
+// retired product
+.retired-product {
+  opacity: .3;
+}
+
+// error messages on checkout page
+.checkout-errors {
+  max-width: 400px;
+  margin: auto;
+  color: red;
+}
+
+.carousel-control {
+  &.left, &.right {
+    background-image: none;
+    @include reset-filter();
+  }
+}
+
+.bs-example, .new-caption-area {
+    width: 600px;
+    margin: auto;
+    color: #000;
+  }
+
+.carousel-caption {
+	color: #000;
+}
+
+.glyphicon {
+  color: #3D3C3D;
+}
+
+#search-form {
+  display: inline;
+}
+
+.search-box {
+  display: inline;
+  float: right;
+  font-size: 12px;
+}
+
+.search-button {
+  border-style: none;
+}
+
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.button-container {
+  margin-top: 20px;
+}
+
+.input-group {
+  max-width: 300px;
+  margin: auto;
+}
+
+.num-in-stock {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+a {
+  color: #006666;
+}
+
+.browse-link-container {
+  width: 170px;
+  background-color: #000000;
+  color: #FFFFFF;
+  height: 35px;
+  margin-top: 20px;
+}
+
+.dobby {
+  height: 400px;
+  width: 400px;
+  margin: auto;
+}
+
+.black-button {
+  background-color: #000000 !important;
+  color: #FFFFFF;
+}
+
+
+.black-button:hover {
+  text-decoration: none;
+  color: #bfbfbf;
+}
+
+.margin-top {
+  margin-top: 20px;
+}
+
+.margin-bottom {
+  margin-bottom: 20px;
+}
+
+.dk-gray-button {
+  background-color: #bfbfbf !important;
+  color: #000000 !important;
+}

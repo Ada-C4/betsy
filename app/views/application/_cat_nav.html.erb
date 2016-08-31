@@ -1,0 +1,39 @@
+<div class="row cat-container">
+  <div class="cat-link-container">
+    <%= link_to "Shop All", products_path, class: "cat-link" %>
+  </div>
+  <% categories.first(7).each do |category| %>
+    <div class="cat-link-container">
+      <%= link_to category.name, category_products_path(category), class: "cat-link" %>
+    </div>
+  <% end %>
+  <div class="dropdown">
+    <button class="merchant-dropdown" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      More
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <% categories[7..categories.length].each do |category| %>
+        <li><%= link_to category.name.capitalize, category_products_path(category) %></li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="dropdown">
+    <button class="merchant-dropdown" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      Merchants
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <% merchants.each do |merchant| %>
+        <li><%= link_to merchant.user_name, merchant_products_path(merchant) %></li>
+      <% end %>
+    </ul>
+  </div>
+  <%= form_tag(products_path, :method => "get", id: "search-form") do %>
+    <div class="search-box">
+      <%= text_field_tag :search, params[:search], class: "span2", placeholder: "Search" %>
+      <button class="btn btn-default search-button" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+    </div>
+  <% end %>
+</div>
+<hr>
